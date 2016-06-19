@@ -16,11 +16,9 @@
 
 package org.blankapp.validation;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
-import org.blankapp.validation.handlers.DefaultHandler;
 import org.blankapp.validation.validators.AbstractValidator;
 
 import java.util.ArrayList;
@@ -30,31 +28,22 @@ import java.util.Map;
 
 public class Validator {
 
-    private Context mContext;
     private List<Rule> mRules;
     private List<ValidationError> mErrors;
     private ErrorHandler mErrorHandler;
     private ValidationListener mValidationListener;
 
     public Validator() {
-        this(null, null);
+        this(null);
     }
 
-    public Validator(Context context) {
-        this(context, null);
-    }
-
-    public Validator(Context context, ErrorHandler errorHandler) {
-        this.mContext = context;
-        this.mErrorHandler = errorHandler;
+    public Validator(ErrorHandler errorHandler) {
         this.mRules = new ArrayList<>();
+        this.mErrors = new ArrayList<>();
+        this.mErrorHandler = errorHandler;
     }
 
     public void add(Rule rule) {
-        this.add(rule, null);
-    }
-
-    public void add(Rule rule, ValidationListener validationListener) {
         mRules.add(rule);
     }
 
@@ -67,9 +56,6 @@ public class Validator {
     }
 
     public ErrorHandler getErrorHandler() {
-        if (mErrorHandler == null) {
-            mErrorHandler = new DefaultHandler();
-        }
         return mErrorHandler;
     }
 
@@ -87,12 +73,14 @@ public class Validator {
 
     @SuppressWarnings("unchecked")
     public boolean validate() {
-        List<ValidationError> validationErrors = new ArrayList<>();
+        mErrors.clear();
         for (Rule rule : mRules) {
             View view = rule.view();
-            Object value = rule.getValue();
+            Object value = rule.value();
             Map<String, String> errorMessages = new LinkedHashMap<>();
+
             for (String ruleName : rule.validators().keySet()) {
+
                 Log.w("Validator", ruleName);
                 AbstractValidator validator = rule.validators().get(ruleName);
                 if (validator.isValid(value)) {
@@ -102,11 +90,11 @@ public class Validator {
                 errorMessages.put(ruleName, errorMessage);
             }
             if (errorMessages.size() > 0) {
-                validationErrors.add(new ValidationError(view, errorMessages));
+                mErrors.add(new ValidationError(view, errorMessages));
             }
         }
-        if (validationErrors.size() > 0) {
-            if (mValidationListener != null) mValidationListener.onInValid(validationErrors);
+        if (mErrors.size() > 0) {
+            if (mValidationListener != null) mValidationListener.onInValid(mErrors);
             return false;
         }
         if (mValidationListener != null) mValidationListener.onValid();

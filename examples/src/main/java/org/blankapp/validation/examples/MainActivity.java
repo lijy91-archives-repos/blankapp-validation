@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         this.mCbAccepted = (CheckBox) findViewById(R.id.cb_accepted);
         this.mBtnSubmit = (Button) findViewById(R.id.btn_submit);
 
-        final Validator validator = new Validator(this);
+        final Validator validator = new Validator();
 
         validator.add(Rule.with(mEtEmail).required().email());
         validator.add(Rule.with(mEtName).required().minLength(2).maxLength(32));

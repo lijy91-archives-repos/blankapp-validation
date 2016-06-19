@@ -19,9 +19,13 @@ package org.blankapp.validation;
 import android.content.res.Resources;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.blankapp.validation.validators.AcceptedValidator;
 import org.blankapp.validation.validators.AbstractValidator;
@@ -29,6 +33,7 @@ import org.blankapp.validation.validators.DateValidator;
 import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -49,10 +54,8 @@ public class Rule {
     public static final String REQUIRED     = "required";
     public static final String URL          = "url";
 
-
-
     public static Rule with(View view) {
-        return new Rule(view, "");
+        return new Rule(view, null);
     }
 
     public static Rule with(View view, @StringRes int nameResId) {
@@ -75,6 +78,7 @@ public class Rule {
 
     public Rule(View view) {
         this(view, null);
+        int viewId = view.getId();
     }
 
     public Rule(View view, @StringRes int nameResId) {
@@ -94,7 +98,7 @@ public class Rule {
         return mView;
     }
 
-    public Object getValue() {
+    public Object value() {
         if (mView instanceof EditText) {
             return ((EditText) mView).getText();
         } else if (mView instanceof CheckBox) {
@@ -102,7 +106,6 @@ public class Rule {
         }
         return null;
     }
-
 
     public Map<String, AbstractValidator> validators() {
         return mValidators;
@@ -129,6 +132,14 @@ public class Rule {
     private void addValidator(String ruleName, AbstractValidator validator, String errorMessage) {
         mValidators.put(ruleName, validator);
         mErrorMessages.put(ruleName, errorMessage);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isRequired() {
+        return mValidators.containsKey(REQUIRED);
     }
 
     /**
@@ -208,18 +219,8 @@ public class Rule {
      *
      * @return 规则
      */
-    public Rule date() {
+    public Rule date(String format) {
         addValidator(DATE, new DateValidator(new Date()), R.string.before, name());
-        return this;
-    }
-
-    /**
-     * 验证字段值符合定义的日期格式。
-     *
-     * @param format 日期格式
-     * @return 规则
-     */
-    public Rule dateFormat(String format) {
         return this;
     }
 
@@ -238,10 +239,6 @@ public class Rule {
      */
     public Rule email() {
         addValidator(EMAIL, new RegexValidator(RegexValidator.Patterns.EMAIL_ADDRESS), R.string.email, name());
-        return this;
-    }
-
-    public Rule image() {
         return this;
     }
 
@@ -285,10 +282,6 @@ public class Rule {
     }
 
     public Rule maxLength(long value) {
-        return this;
-    }
-
-    public Rule mimes() {
         return this;
     }
 
@@ -344,10 +337,6 @@ public class Rule {
     public Rule required() {
         addValidator(REQUIRED, new RequiredValidator(), R.string.required, name());
         return this;
-    }
-
-    public Rule same(String field) {
-        return null;
     }
 
     public Rule size(int value) {
