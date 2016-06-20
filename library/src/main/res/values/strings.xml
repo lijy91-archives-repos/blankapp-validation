@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="field">field</string>
     <string name="accepted">The %1$s must be accepted.</string>
     <string name="after">The %1$s must be a date after :date.</string>
     <string name="alpha">The %1$s may only contain letters.</string>

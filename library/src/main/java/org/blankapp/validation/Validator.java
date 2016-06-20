@@ -75,13 +75,13 @@ public class Validator {
     public boolean validate() {
         mErrors.clear();
         for (Rule rule : mRules) {
-            View view = rule.view();
-            Object value = rule.value();
+            String fieldName = rule.name();
+            View view        = rule.view();
+            Object value     = rule.value();
+
             Map<String, String> errorMessages = new LinkedHashMap<>();
 
             for (String ruleName : rule.validators().keySet()) {
-
-                Log.w("Validator", ruleName);
                 AbstractValidator validator = rule.validators().get(ruleName);
                 if (validator.isValid(value)) {
                     continue;
@@ -90,7 +90,7 @@ public class Validator {
                 errorMessages.put(ruleName, errorMessage);
             }
             if (errorMessages.size() > 0) {
-                mErrors.add(new ValidationError(view, errorMessages));
+                mErrors.add(new ValidationError(fieldName, view, errorMessages));
             }
         }
         if (mErrors.size() > 0) {

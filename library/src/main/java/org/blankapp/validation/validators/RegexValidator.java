@@ -18,14 +18,6 @@ package org.blankapp.validation.validators;
 
 import java.util.regex.Pattern;
 
-import static org.blankapp.validation.validators.RegexValidator.Patterns.ALPHA;
-import static org.blankapp.validation.validators.RegexValidator.Patterns.ALPHA_DASH;
-import static org.blankapp.validation.validators.RegexValidator.Patterns.ALPHA_NUM;
-import static org.blankapp.validation.validators.RegexValidator.Patterns.DOMAIN_NAME;
-import static org.blankapp.validation.validators.RegexValidator.Patterns.EMAIL_ADDRESS;
-import static org.blankapp.validation.validators.RegexValidator.Patterns.IP_ADDRESS;
-import static org.blankapp.validation.validators.RegexValidator.Patterns.WEB_URL;
-
 public class RegexValidator extends AbstractValidator<CharSequence> {
 
     private Pattern pattern;
@@ -36,14 +28,6 @@ public class RegexValidator extends AbstractValidator<CharSequence> {
 
     public RegexValidator(Pattern pattern) {
         this.pattern = pattern;
-        if (EMAIL_ADDRESS.equals(pattern)) {
-        } else if (IP_ADDRESS.equals(pattern)) {
-        } else if (WEB_URL.equals(pattern)) {
-        } else if (DOMAIN_NAME.equals(pattern)) {
-        } else if (ALPHA.equals(pattern)) {
-        } else if (ALPHA_DASH.equals(pattern)) {
-        } else if (ALPHA_NUM.equals(pattern)) {
-        }
     }
 
     @Override
@@ -56,9 +40,9 @@ public class RegexValidator extends AbstractValidator<CharSequence> {
         public static final Pattern IP_ADDRESS = android.util.Patterns.IP_ADDRESS;
         public static final Pattern WEB_URL = android.util.Patterns.WEB_URL;
         public static final Pattern DOMAIN_NAME = android.util.Patterns.DOMAIN_NAME;
-        public static final Pattern ALPHA = Pattern.compile("\\p{Alpha}");
-        public static final Pattern ALPHA_DASH = Pattern.compile("\\p{Alpha}");
-        public static final Pattern ALPHA_NUM = Pattern.compile("\\p{Alpha}");
+        public static final Pattern ALPHA = Pattern.compile("^[A-Za-z]+$");
+        public static final Pattern ALPHA_DASH = Pattern.compile("^\\w+$");
+        public static final Pattern ALPHA_NUM = Pattern.compile("^[A-Za-z0-9]+$");
 
     }
 

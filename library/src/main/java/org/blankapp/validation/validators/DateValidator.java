@@ -16,14 +16,17 @@
 
 package org.blankapp.validation.validators;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateValidator extends AbstractValidator<Date> {
 
     @StringDef({
-        NOW,
         TODAY,
         TOMORROW,
         YESTERDAY,
@@ -51,7 +54,6 @@ public class DateValidator extends AbstractValidator<Date> {
     })
     public @interface DateFlags {}
 
-    public static final String NOW            = "now";
     public static final String TODAY          = "today";
     public static final String TOMORROW       = "tomorrow";
     public static final String YESTERDAY      = "yesterday";
@@ -80,22 +82,76 @@ public class DateValidator extends AbstractValidator<Date> {
     public static final String NEXT_FRIDAY    = "next_friday";
     public static final String NEXT_SATURDAY  = "next_saturday";
 
-    private String dateFlag;
-    private Date date;
+    @IntDef({
+            PATTERN_AFTER,
+            PATTERN_BEFORE,
+            PATTERN_EQUAL,
+    })
+    public @interface Patterns {}
 
-    public DateValidator(Date date) {
-        this.date = date;
+    public static final int PATTERN_AFTER  = 0x01;
+    public static final int PATTERN_BEFORE = 0x02;
+    public static final int PATTERN_EQUAL  = 0x03;
+
+    private String mDateFlag;
+    private Date mDate;
+    private int mPattern;
+
+    private DateValidator() {
     }
 
-    public DateValidator(@DateFlags String dateFlag) {
-        this.dateFlag = dateFlag;
+    public DateValidator(String dateStr, String format, int pattern) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        this.mDate = sdf.parse(dateStr);
+        this.mPattern = pattern;
+    }
 
+    public DateValidator(Date date, int pattern) {
+        this.mDate = date;
+        this.mPattern = pattern;
+    }
+
+    public DateValidator(@DateFlags String dateFlag, int pattern) {
+        this.mDateFlag = dateFlag;
+        this.mPattern = pattern;
+        this.mDate = makeDate(dateFlag);
+    }
+
+    public Date date() {
+        return mDate;
+    }
+
+    public int pattern() {
+        return mPattern;
+    }
+
+    private Date makeDate(@DateFlags String dateFlag) {
+        Calendar c = Calendar.getInstance();
+        switch (dateFlag) {
+            case TODAY:
+                break;
+            case TOMORROW:
+                c.add(Calendar.DATE, 1);
+                break;
+            case YESTERDAY:
+                c.add(Calendar.DATE, -1);
+                break;
+        }
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTime();
     }
 
     @Override
     public boolean isValid(Date date) {
-        if (dateFlag == null) {
-
+        switch (mPattern) {
+            case PATTERN_AFTER:
+                return mDate.after(date);
+            case PATTERN_BEFORE:
+                return mDate.before(date);
+            case PATTERN_EQUAL:
+                return mDate.getTime() == date.getTime();
         }
         return false;
     }

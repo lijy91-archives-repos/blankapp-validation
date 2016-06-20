@@ -17,15 +17,10 @@
 package org.blankapp.validation;
 
 import android.content.res.Resources;
-import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import org.blankapp.validation.validators.AcceptedValidator;
 import org.blankapp.validation.validators.AbstractValidator;
@@ -33,7 +28,6 @@ import org.blankapp.validation.validators.DateValidator;
 import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,35 +49,26 @@ public class Rule {
     public static final String URL          = "url";
 
     public static Rule with(View view) {
-        return new Rule(view, null);
+        String name = view.getResources().getString(R.string.field);
+        return new Rule(view, name);
     }
 
     public static Rule with(View view, @StringRes int nameResId) {
-        return new Rule(view, nameResId);
+        String name = view.getResources().getString(nameResId);
+        return new Rule(view, name);
     }
 
     public static Rule with(View view, String name) {
         return new Rule(view, name);
     }
 
+    private String mName;
     private View mView;
     private Resources mResources;
     private Map<String, AbstractValidator> mValidators;
     private Map<String, String> mErrorMessages;
 
-    private String mName;
-
     private Rule() {
-    }
-
-    public Rule(View view) {
-        this(view, null);
-        int viewId = view.getId();
-    }
-
-    public Rule(View view, @StringRes int nameResId) {
-        this(view, null);
-        this.mName = mResources.getString(nameResId);
     }
 
     public Rule(View view, String name) {
@@ -92,6 +77,10 @@ public class Rule {
         this.mValidators = new LinkedHashMap<>();
         this.mErrorMessages = new LinkedHashMap<>();
         this.mName = name;
+    }
+
+    public String name() {
+        return mName;
     }
 
     public View view() {
@@ -115,17 +104,13 @@ public class Rule {
         return mErrorMessages;
     }
 
-    public String name() {
-        return mName;
-    }
-
-    private void addValidator(String ruleName, AbstractValidator validator, @StringRes int resId) {
-        String errorMessage = mResources.getString(resId);
+    private void addValidator(String ruleName, AbstractValidator validator, @StringRes int messageResId) {
+        String errorMessage = mResources.getString(messageResId);
         this.addValidator(ruleName, validator, errorMessage);
     }
 
-    private void addValidator(String ruleName, AbstractValidator validator, @StringRes int resId, Object... formatArgs) {
-        String errorMessage = mResources.getString(resId, formatArgs);
+    private void addValidator(String ruleName, AbstractValidator validator, @StringRes int messageResId, Object... formatArgs) {
+        String errorMessage = mResources.getString(messageResId, formatArgs);
         this.addValidator(ruleName, validator, errorMessage);
     }
 
@@ -134,10 +119,6 @@ public class Rule {
         mErrorMessages.put(ruleName, errorMessage);
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean isRequired() {
         return mValidators.containsKey(REQUIRED);
     }
@@ -157,12 +138,13 @@ public class Rule {
     }
 
     public Rule after(Date date) {
-        addValidator(AFTER, new DateValidator(date), R.string.after, name());
+        addValidator(AFTER, new DateValidator(date, DateValidator.PATTERN_AFTER), R.string.after, name());
         return this;
     }
 
     public Rule after(@DateValidator.DateFlags String dateFlag) {
-        addValidator(AFTER, new DateValidator(dateFlag), R.string.after, name());
+        DateValidator dateValidator = new DateValidator(dateFlag, DateValidator.PATTERN_AFTER);
+        addValidator(AFTER, dateValidator, R.string.after, name(), dateValidator.date());
         return this;
     }
 
@@ -197,12 +179,12 @@ public class Rule {
     }
 
     public Rule before(String date) {
-        addValidator(BEFORE, new DateValidator(new Date()), R.string.before, name());
+        addValidator(BEFORE, new DateValidator(new Date(), DateValidator.PATTERN_BEFORE), R.string.before, name());
         return this;
     }
 
     public Rule before(Date date) {
-        addValidator(BEFORE, new DateValidator(new Date()), R.string.before, name());
+        addValidator(BEFORE, new DateValidator(date, DateValidator.PATTERN_BEFORE), R.string.before, name());
         return this;
     }
 
@@ -220,7 +202,7 @@ public class Rule {
      * @return 规则
      */
     public Rule date(String format) {
-        addValidator(DATE, new DateValidator(new Date()), R.string.before, name());
+        addValidator(DATE, new DateValidator(new Date(), DateValidator.PATTERN_BEFORE), R.string.before, name());
         return this;
     }
 

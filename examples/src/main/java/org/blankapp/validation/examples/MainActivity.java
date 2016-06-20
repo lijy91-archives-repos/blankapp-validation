@@ -14,7 +14,6 @@ import org.blankapp.validation.ValidationError;
 import org.blankapp.validation.ValidationListener;
 import org.blankapp.validation.Validator;
 import org.blankapp.validation.handlers.DefaultHandler;
-import org.blankapp.validation.validators.RegexValidator;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         final Validator validator = new Validator();
 
         validator.add(Rule.with(mEtEmail).required().email());
-        validator.add(Rule.with(mEtName).required().minLength(2).maxLength(32));
+        validator.add(Rule.with(mEtName).required().alpha().minLength(2).maxLength(32));
         validator.add(Rule.with(mEtPassword).required().minLength(6).maxLength(32));
         validator.add(Rule.with(mEtBio).required().maxLength(255));
         validator.add(Rule.with(mCbAccepted).accepted());
@@ -52,18 +51,18 @@ public class MainActivity extends AppCompatActivity {
         validator.setValidatorListener(new ValidationListener() {
             @Override
             public void onValid() {
-                Toast.makeText(MainActivity.this, "验证通过", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "验证通过。", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onInValid(List<ValidationError> errors) {
                 for (ValidationError error : errors) {
-                    Log.w("MainActivity", "Id:" + error.view().getId());
+                    Log.w("MainActivity", "Name:" + error.name());
                     for (String key : error.errorMessages().keySet()) {
                         Log.e("MainActivity", error.errorMessages().get(key));
                     }
                 }
-                Toast.makeText(MainActivity.this, "验证失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "验证失败。", Toast.LENGTH_SHORT).show();
             }
         });
 

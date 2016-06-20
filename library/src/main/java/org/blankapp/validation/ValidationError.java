@@ -22,15 +22,21 @@ import java.util.Map;
 
 public class ValidationError extends Throwable {
 
+    private String mName;
     private View mView;
     private Map<String, String> mErrorMessages;
 
-    public ValidationError() {
+    private ValidationError() {
     }
 
-    public ValidationError(View view, Map<String, String> message) {
+    public ValidationError(String name, View view, Map<String, String> message) {
+        this.mName = name;
         this.mView = view;
         this.mErrorMessages = message;
+    }
+
+    public String name() {
+        return mName;
     }
 
     public View view() {
