@@ -27,6 +27,7 @@ import org.blankapp.validation.validators.AbstractValidator;
 import org.blankapp.validation.validators.DateValidator;
 import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
+import org.blankapp.validation.validators.TypeValidator;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -89,7 +90,7 @@ public class Rule {
 
     public Object value() {
         if (mView instanceof EditText) {
-            return ((EditText) mView).getText();
+            return ((EditText) mView).getText().toString();
         } else if (mView instanceof CheckBox) {
             return ((CheckBox) mView).isChecked();
         }
@@ -202,7 +203,7 @@ public class Rule {
      * @return 规则
      */
     public Rule date(String format) {
-        addValidator(DATE, new DateValidator(new Date(), DateValidator.PATTERN_BEFORE), R.string.before, name());
+        addValidator(DATE, new TypeValidator(TypeValidator.DATE, format), R.string.date, name());
         return this;
     }
 

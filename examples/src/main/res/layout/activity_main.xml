@@ -35,6 +35,13 @@
         android:inputType="textPassword" />
 
     <EditText
+        android:id="@+id/et_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Birthday"
+        android:inputType="date" />
+
+    <EditText
         android:id="@+id/et_bio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

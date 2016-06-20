@@ -7,6 +7,8 @@
     <string name="alpha_dash">The %1$s may only contain letters, numbers, and dashes.</string>
     <string name="alpha_num">The %1$s may only contain letters and numbers.</string>
     <string name="before">The %1$s must be a date before :date.</string>
+    <string name="date">The %1$s is not a valid date.</string>
+    <string name="date_format">The %1$s does not match the format %2$s.</string>
     <string name="email">The %1$s must be a valid email address.</string>
     <string name="ip">The %1$s must be a valid IP address.</string>
     <string name="regex">The %1$s format is invalid.</string>

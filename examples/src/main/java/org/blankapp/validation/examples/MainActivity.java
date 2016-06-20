@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEtEmail;
     private EditText mEtName;
     private EditText mEtPassword;
+    private EditText mEtBirthday;
     private EditText mEtBio;
     private CheckBox mCbAccepted;
     private Button mBtnSubmit;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         this.mEtEmail = (EditText) findViewById(R.id.et_email);
         this.mEtName = (EditText) findViewById(R.id.et_name);
         this.mEtPassword = (EditText) findViewById(R.id.et_password);
+        this.mEtBirthday = (EditText) findViewById(R.id.et_birthday);
         this.mEtBio = (EditText) findViewById(R.id.et_bio);
         this.mCbAccepted = (CheckBox) findViewById(R.id.cb_accepted);
         this.mBtnSubmit = (Button) findViewById(R.id.btn_submit);
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         validator.add(Rule.with(mEtEmail).required().email());
         validator.add(Rule.with(mEtName).required().alpha().minLength(2).maxLength(32));
         validator.add(Rule.with(mEtPassword).required().minLength(6).maxLength(32));
+        validator.add(Rule.with(mEtBirthday).required().date("yyyy-MM-dd"));
         validator.add(Rule.with(mEtBio).required().maxLength(255));
         validator.add(Rule.with(mCbAccepted).accepted());
 
