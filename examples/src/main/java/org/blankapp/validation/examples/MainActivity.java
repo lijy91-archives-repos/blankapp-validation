@@ -16,7 +16,6 @@ import org.blankapp.validation.Validator;
 import org.blankapp.validation.handlers.DefaultHandler;
 import org.blankapp.validation.validators.DateValidator;
 
-import java.text.ParseException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "验证失败。\n" + sb.toString(), Toast.LENGTH_LONG).show();
             }
         });
+
+        new DateValidator(DateValidator.THIS_SUNDAY, "yyyy-MM-dd", DateValidator.PATTERN_EQUAL);
+        new DateValidator(DateValidator.LAST_SUNDAY, "yyyy-MM-dd", DateValidator.PATTERN_EQUAL);
+        new DateValidator(DateValidator.NEXT_SUNDAY, "yyyy-MM-dd", DateValidator.PATTERN_EQUAL);
 
         mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

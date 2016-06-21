@@ -18,6 +18,7 @@ package org.blankapp.validation.validators;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,29 +59,29 @@ public class DateValidator extends AbstractValidator<String> {
     public static final String TOMORROW       = "tomorrow";
     public static final String YESTERDAY      = "yesterday";
 
-    public static final String THIS_SUNDAY    = "this_sunday";
-    public static final String THIS_MONDAY    = "this_monday";
-    public static final String THIS_TUESDAY   = "this_tuesday";
-    public static final String THIS_WEDNESDAY = "this_wednesday";
-    public static final String THIS_THURSDAY  = "this_thursday";
-    public static final String THIS_FRIDAY    = "this_friday";
-    public static final String THIS_SATURDAY  = "this_saturday";
+    public static final String THIS_SUNDAY    = "this sunday";
+    public static final String THIS_MONDAY    = "this monday";
+    public static final String THIS_TUESDAY   = "this tuesday";
+    public static final String THIS_WEDNESDAY = "this wednesday";
+    public static final String THIS_THURSDAY  = "this thursday";
+    public static final String THIS_FRIDAY    = "this friday";
+    public static final String THIS_SATURDAY  = "this saturday";
 
-    public static final String LAST_SUNDAY    = "last_sunday";
-    public static final String LAST_MONDAY    = "last_monday";
-    public static final String LAST_TUESDAY   = "last_tuesday";
-    public static final String LAST_WEDNESDAY = "last_wednesday";
-    public static final String LAST_THURSDAY  = "last_thursday";
-    public static final String LAST_FRIDAY    = "last_friday";
-    public static final String LAST_SATURDAY  = "last_saturday";
+    public static final String LAST_SUNDAY    = "last sunday";
+    public static final String LAST_MONDAY    = "last monday";
+    public static final String LAST_TUESDAY   = "last tuesday";
+    public static final String LAST_WEDNESDAY = "last wednesday";
+    public static final String LAST_THURSDAY  = "last thursday";
+    public static final String LAST_FRIDAY    = "last friday";
+    public static final String LAST_SATURDAY  = "last saturday";
 
-    public static final String NEXT_SUNDAY    = "next_sunday";
-    public static final String NEXT_MONDAY    = "next_monday";
-    public static final String NEXT_TUESDAY   = "next_tuesday";
-    public static final String NEXT_WEDNESDAY = "next_wednesday";
-    public static final String NEXT_THURSDAY  = "next_thursday";
-    public static final String NEXT_FRIDAY    = "next_friday";
-    public static final String NEXT_SATURDAY  = "next_saturday";
+    public static final String NEXT_SUNDAY    = "next sunday";
+    public static final String NEXT_MONDAY    = "next monday";
+    public static final String NEXT_TUESDAY   = "next tuesday";
+    public static final String NEXT_WEDNESDAY = "next wednesday";
+    public static final String NEXT_THURSDAY  = "next thursday";
+    public static final String NEXT_FRIDAY    = "next friday";
+    public static final String NEXT_SATURDAY  = "next saturday";
 
     @IntDef({
             PATTERN_AFTER,
@@ -103,7 +104,7 @@ public class DateValidator extends AbstractValidator<String> {
     private DateValidator() {
     }
 
-    public DateValidator(String dateStr, String dateFormat, int pattern) {
+    public DateValidator(String dateStr, String dateFormat, @Patterns int pattern) {
         this.mSimpleDateFormat = new SimpleDateFormat(dateFormat);
         try {
             this.mDate = mSimpleDateFormat.parse(dateStr);
@@ -142,7 +143,52 @@ public class DateValidator extends AbstractValidator<String> {
             case YESTERDAY:
                 c.add(Calendar.DATE, -1);
                 break;
+            default:
+                if (dateFlag.startsWith("this ") ||
+                    dateFlag.startsWith("last ") ||
+                    dateFlag.startsWith("next ")) {
+
+                    String prefix = dateFlag.substring(0, dateFlag.indexOf(' '));
+                    String dayOfWeek = dateFlag.substring(dateFlag.indexOf(' ') + 1);
+
+                    switch (prefix) {
+                        case "this":
+                            break;
+                        case "last":
+                            c.add(Calendar.DATE, -7);
+                            break;
+                        case "next":
+                            c.add(Calendar.DATE, 7);
+                            break;
+                    }
+
+                    switch (dayOfWeek) {
+                        case "sunday":
+                            c.set(Calendar.DAY_OF_WEEK, 1);
+                            break;
+                        case "monday":
+                            c.set(Calendar.DAY_OF_WEEK, 2);
+                            break;
+                        case "tuesday":
+                            c.set(Calendar.DAY_OF_WEEK, 3);
+                            break;
+                        case "wednesday":
+                            c.set(Calendar.DAY_OF_WEEK, 4);
+                            break;
+                        case "thursday":
+                            c.set(Calendar.DAY_OF_WEEK, 5);
+                            break;
+                        case "friday":
+                            c.set(Calendar.DAY_OF_WEEK, 6);
+                            break;
+                        case "saturday":
+                            c.set(Calendar.DAY_OF_WEEK, 7);
+                            break;
+                    }
+                }
+                break;
         }
+
         // 将时、分、秒、毫秒置为0，仅对比日期。
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
