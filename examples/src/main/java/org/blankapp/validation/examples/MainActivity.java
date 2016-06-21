@@ -20,13 +20,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText mEtEmail;
-    private EditText mEtUsername;
-    private EditText mEtName;
-    private EditText mEtPassword;
-    private EditText mEtBirthday;
-    private EditText mEtAge;
-    private EditText mEtBio;
+    private EditText mEdtEmail;
+    private EditText mEdtUsername;
+    private EditText mEdtName;
+    private EditText mEdtPassword;
+    private EditText mEdtBirthday;
+    private EditText mEdtAge;
+    private EditText mEdtBio;
     private CheckBox mCbAccepted;
     private Button mBtnSubmit;
 
@@ -35,25 +35,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.mEtEmail = (EditText) findViewById(R.id.et_email);
-        this.mEtUsername = (EditText) findViewById(R.id.et_username);
-        this.mEtName = (EditText) findViewById(R.id.et_name);
-        this.mEtPassword = (EditText) findViewById(R.id.et_password);
-        this.mEtBirthday = (EditText) findViewById(R.id.et_birthday);
-        this.mEtAge = (EditText) findViewById(R.id.et_age);
-        this.mEtBio = (EditText) findViewById(R.id.et_bio);
+        this.mEdtEmail = (EditText) findViewById(R.id.edt_email);
+        this.mEdtUsername = (EditText) findViewById(R.id.edt_username);
+        this.mEdtName = (EditText) findViewById(R.id.edt_name);
+        this.mEdtPassword = (EditText) findViewById(R.id.edt_password);
+        this.mEdtBirthday = (EditText) findViewById(R.id.edt_birthday);
+        this.mEdtAge = (EditText) findViewById(R.id.edt_age);
+        this.mEdtBio = (EditText) findViewById(R.id.edt_bio);
         this.mCbAccepted = (CheckBox) findViewById(R.id.cb_accepted);
         this.mBtnSubmit = (Button) findViewById(R.id.btn_submit);
 
         final Validator validator = new Validator();
 
-        validator.add(Rule.with(mEtEmail, "Email").required().email());
-        validator.add(Rule.with(mEtUsername, "Username").required().alphaDash());
-        validator.add(Rule.with(mEtName, "Name").required().minLength(2).maxLength(32));
-        validator.add(Rule.with(mEtPassword, "Password").required().minLength(6).maxLength(32));
-        validator.add(Rule.with(mEtBirthday, "Birthday").required().date("yyyy-MM-dd").before(DateValidator.TODAY));
-        validator.add(Rule.with(mEtAge, "Age").required().integer());
-        validator.add(Rule.with(mEtBio, "Bio").required().maxLength(255));
+        validator.add(Rule.with(mEdtEmail, "Email").required().email());
+        validator.add(Rule.with(mEdtUsername, "Username").required().alphaDash());
+        validator.add(Rule.with(mEdtName, "Name").required().minLength(2).maxLength(32));
+        validator.add(Rule.with(mEdtPassword, "Password").required().minLength(6).maxLength(32));
+        validator.add(Rule.with(mEdtBirthday, "Birthday").required().date("yyyy-MM-dd").before(DateValidator.TODAY));
+        validator.add(Rule.with(mEdtAge, "Age").required().integer());
+        validator.add(Rule.with(mEdtBio, "Bio").required().maxLength(255));
         validator.add(Rule.with(mCbAccepted, "Accepted").accepted());
 
         validator.setErrorHandler(new DefaultHandler());

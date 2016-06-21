@@ -24,12 +24,15 @@ dependencies {
 
 ```java
 // 实例化一个验证器
-final Validator validator = new Validator(this);
+final Validator validator = new Validator();
 
 // 添加指定的验证规则到验证器
 validator.add(Rule.with(mEtEmail).required().email());
+validator.add(Rule.with(mEtUsername).required().alphaDash());
 validator.add(Rule.with(mEtName).required().minLength(2).maxLength(32));
 validator.add(Rule.with(mEtPassword).required().minLength(6).maxLength(32));
+validator.add(Rule.with(mEtBirthday).required().date("yyyy-MM-dd").before(DateValidator.TODAY));
+validator.add(Rule.with(mEtAge).required().integer());
 validator.add(Rule.with(mEtBio).required().maxLength(255));
 validator.add(Rule.with(mCbAccepted).accepted());
 

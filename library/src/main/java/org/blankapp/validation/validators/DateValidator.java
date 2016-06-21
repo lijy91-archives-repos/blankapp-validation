@@ -59,29 +59,29 @@ public class DateValidator extends AbstractValidator<String> {
     public static final String TOMORROW       = "tomorrow";
     public static final String YESTERDAY      = "yesterday";
 
-    public static final String THIS_SUNDAY    = "this sunday";
-    public static final String THIS_MONDAY    = "this monday";
-    public static final String THIS_TUESDAY   = "this tuesday";
-    public static final String THIS_WEDNESDAY = "this wednesday";
-    public static final String THIS_THURSDAY  = "this thursday";
-    public static final String THIS_FRIDAY    = "this friday";
-    public static final String THIS_SATURDAY  = "this saturday";
+    public static final String THIS_SUNDAY    = "this_sunday";
+    public static final String THIS_MONDAY    = "this_monday";
+    public static final String THIS_TUESDAY   = "this_tuesday";
+    public static final String THIS_WEDNESDAY = "this_wednesday";
+    public static final String THIS_THURSDAY  = "this_thursday";
+    public static final String THIS_FRIDAY    = "this_friday";
+    public static final String THIS_SATURDAY  = "this_saturday";
 
-    public static final String LAST_SUNDAY    = "last sunday";
-    public static final String LAST_MONDAY    = "last monday";
-    public static final String LAST_TUESDAY   = "last tuesday";
-    public static final String LAST_WEDNESDAY = "last wednesday";
-    public static final String LAST_THURSDAY  = "last thursday";
-    public static final String LAST_FRIDAY    = "last friday";
-    public static final String LAST_SATURDAY  = "last saturday";
+    public static final String LAST_SUNDAY    = "last_sunday";
+    public static final String LAST_MONDAY    = "last_monday";
+    public static final String LAST_TUESDAY   = "last_tuesday";
+    public static final String LAST_WEDNESDAY = "last_wednesday";
+    public static final String LAST_THURSDAY  = "last_thursday";
+    public static final String LAST_FRIDAY    = "last_friday";
+    public static final String LAST_SATURDAY  = "last_saturday";
 
-    public static final String NEXT_SUNDAY    = "next sunday";
-    public static final String NEXT_MONDAY    = "next monday";
-    public static final String NEXT_TUESDAY   = "next tuesday";
-    public static final String NEXT_WEDNESDAY = "next wednesday";
-    public static final String NEXT_THURSDAY  = "next thursday";
-    public static final String NEXT_FRIDAY    = "next friday";
-    public static final String NEXT_SATURDAY  = "next saturday";
+    public static final String NEXT_SUNDAY    = "next_sunday";
+    public static final String NEXT_MONDAY    = "next_monday";
+    public static final String NEXT_TUESDAY   = "next_tuesday";
+    public static final String NEXT_WEDNESDAY = "next_wednesday";
+    public static final String NEXT_THURSDAY  = "next_thursday";
+    public static final String NEXT_FRIDAY    = "next_friday";
+    public static final String NEXT_SATURDAY  = "next_saturday";
 
     @IntDef({
             PATTERN_AFTER,
@@ -110,6 +110,7 @@ public class DateValidator extends AbstractValidator<String> {
             this.mDate = mSimpleDateFormat.parse(dateStr);
         } catch (ParseException e) {
             this.mDate = flagToDate(dateStr);
+            this.mDateFlag = dateStr;
         }
         this.mDateStr = dateStr;
         this.mDateFormat = dateFormat;
@@ -122,6 +123,10 @@ public class DateValidator extends AbstractValidator<String> {
         this.mDateStr = mSimpleDateFormat.format(mDate);
         this.mDateFormat = dateFormat;
         this.mPattern = pattern;
+    }
+
+    public String dateFlag() {
+        return mDateFlag;
     }
 
     public Date date() {

@@ -16,46 +16,46 @@
         android:text="Hello World!" />
 
     <EditText
-        android:id="@+id/et_email"
+        android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email" />
 
 
     <EditText
-        android:id="@+id/et_username"
+        android:id="@+id/edt_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username" />
 
     <EditText
-        android:id="@+id/et_name"
+        android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name" />
 
     <EditText
-        android:id="@+id/et_password"
+        android:id="@+id/edt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/et_birthday"
+        android:id="@+id/edt_birthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Birthday"
         android:inputType="date" />
 
     <EditText
-        android:id="@+id/et_age"
+        android:id="@+id/edt_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Age" />
 
     <EditText
-        android:id="@+id/et_bio"
+        android:id="@+id/edt_bio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Bio" />

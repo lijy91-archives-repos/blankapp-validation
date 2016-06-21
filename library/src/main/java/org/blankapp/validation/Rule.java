@@ -18,6 +18,8 @@ package org.blankapp.validation;
 
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -52,7 +54,7 @@ public class Rule {
     public static final String URL          = "url";
 
     public static Rule with(View view) {
-        String name = view.getResources().getString(R.string.field);
+        String name = view.getResources().getString(R.string.validation_field);
         return new Rule(view, name);
     }
 
@@ -67,6 +69,7 @@ public class Rule {
 
     private String mName;
     private View mView;
+    private String mPackageName;
     private Resources mResources;
     private Map<String, AbstractValidator> mValidators;
     private Map<String, String> mErrorMessages;
@@ -75,11 +78,12 @@ public class Rule {
     }
 
     public Rule(View view, String name) {
+        this.mName = name;
         this.mView = view;
+        this.mPackageName = view.getContext().getPackageName();
         this.mResources = view.getResources();
         this.mValidators = new LinkedHashMap<>();
         this.mErrorMessages = new LinkedHashMap<>();
-        this.mName = name;
     }
 
     public String name() {
@@ -136,7 +140,7 @@ public class Rule {
      * @return 规则
      */
     public Rule accepted() {
-        addValidator(ACCEPTED, new AcceptedValidator(), R.string.accepted, name());
+        addValidator(ACCEPTED, new AcceptedValidator(), R.string.validation_error_message_accepted, name());
         return this;
     }
 
@@ -147,7 +151,13 @@ public class Rule {
      * @return 规则
      */
     public Rule after(String dateStr) {
-        addValidator(AFTER, new DateValidator(dateStr, null, DateValidator.PATTERN_AFTER), R.string.after, name(), dateStr);
+        DateValidator dateValidator = new DateValidator(dateStr, null, DateValidator.PATTERN_AFTER);
+        String displayDate = dateStr;
+        if (!TextUtils.isEmpty(dateValidator.dateFlag())) {
+            int resId = mResources.getIdentifier("validation_date_" + dateValidator.dateFlag(), "string", mPackageName);
+            displayDate = mResources.getString(resId);
+        }
+        addValidator(AFTER, dateValidator, R.string.validation_error_message_after, name(), displayDate);
         return this;
     }
 
@@ -159,7 +169,7 @@ public class Rule {
      * @return 规则
      */
     public Rule after(String dateStr, String format) {
-        addValidator(AFTER, new DateValidator(dateStr, format, DateValidator.PATTERN_AFTER), R.string.after, name(), dateStr);
+        addValidator(AFTER, new DateValidator(dateStr, format, DateValidator.PATTERN_AFTER), R.string.validation_error_message_after, name(), dateStr);
         return this;
     }
 
@@ -170,7 +180,7 @@ public class Rule {
      * @return 规则
      */
     public Rule after(Date date) {
-        addValidator(AFTER, new DateValidator(date, dateFormat(), DateValidator.PATTERN_AFTER), R.string.after, name(), null);
+        addValidator(AFTER, new DateValidator(date, dateFormat(), DateValidator.PATTERN_AFTER), R.string.validation_error_message_after, name(), null);
         return this;
     }
 
@@ -180,7 +190,7 @@ public class Rule {
      * @return 规则
      */
     public Rule alpha() {
-        addValidator(ALPHA, new RegexValidator(RegexValidator.Patterns.ALPHA), R.string.alpha, name());
+        addValidator(ALPHA, new RegexValidator(RegexValidator.Patterns.ALPHA), R.string.validation_error_message_alpha, name());
         return this;
     }
 
@@ -190,7 +200,7 @@ public class Rule {
      * @return 规则
      */
     public Rule alphaDash() {
-        addValidator(ALPHA_DASH, new RegexValidator(RegexValidator.Patterns.ALPHA_DASH), R.string.alpha_dash, name());
+        addValidator(ALPHA_DASH, new RegexValidator(RegexValidator.Patterns.ALPHA_DASH), R.string.validation_error_message_alpha_dash, name());
         return this;
     }
 
@@ -200,7 +210,7 @@ public class Rule {
      * @return 规则
      */
     public Rule alphaNum() {
-        addValidator(ALPHA_NUM, new RegexValidator(RegexValidator.Patterns.ALPHA_NUM), R.string.alpha_dash, name());
+        addValidator(ALPHA_NUM, new RegexValidator(RegexValidator.Patterns.ALPHA_NUM), R.string.validation_error_message_alpha_dash, name());
         return this;
     }
 
@@ -211,7 +221,13 @@ public class Rule {
      * @return 规则
      */
     public Rule before(String dateStr) {
-        addValidator(BEFORE, new DateValidator(dateStr, dateFormat(), DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
+        DateValidator dateValidator = new DateValidator(dateStr, dateFormat(), DateValidator.PATTERN_BEFORE);
+        String displayDate = dateStr;
+        if (!TextUtils.isEmpty(dateValidator.dateFlag())) {
+            int resId = mResources.getIdentifier("validation_date_" + dateValidator.dateFlag(), "string", mPackageName);
+            displayDate = mResources.getString(resId);
+        }
+        addValidator(BEFORE, dateValidator, R.string.validation_error_message_before, name(), displayDate);
         return this;
     }
 
@@ -223,7 +239,7 @@ public class Rule {
      * @return 规则
      */
     public Rule before(String dateStr, String format) {
-        addValidator(BEFORE, new DateValidator(dateStr, format, DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
+        addValidator(BEFORE, new DateValidator(dateStr, format, DateValidator.PATTERN_BEFORE), R.string.validation_error_message_before, name(), dateStr);
         return this;
     }
 
@@ -234,7 +250,7 @@ public class Rule {
      * @return 规则
      */
     public Rule before(Date date) {
-        addValidator(BEFORE, new DateValidator(date, dateFormat(), DateValidator.PATTERN_BEFORE), R.string.before, name());
+        addValidator(BEFORE, new DateValidator(date, dateFormat(), DateValidator.PATTERN_BEFORE), R.string.validation_error_message_before, name());
         return this;
     }
 
@@ -252,7 +268,7 @@ public class Rule {
      * @return 规则
      */
     public Rule date(String format) {
-        addValidator(DATE, new TypeValidator(TypeValidator.DATE, format), R.string.date, name());
+        addValidator(DATE, new TypeValidator(TypeValidator.DATE, format), R.string.validation_error_message_date, name());
         return this;
     }
 
@@ -270,7 +286,7 @@ public class Rule {
      * @return 规则
      */
     public Rule email() {
-        addValidator(EMAIL, new RegexValidator(RegexValidator.Patterns.EMAIL_ADDRESS), R.string.email, name());
+        addValidator(EMAIL, new RegexValidator(RegexValidator.Patterns.EMAIL_ADDRESS), R.string.validation_error_message_email, name());
         return this;
     }
 
@@ -288,7 +304,7 @@ public class Rule {
      * @return 规则
      */
     public Rule integer() {
-        addValidator(INTEGER, new TypeValidator(TypeValidator.INTEGER), R.string.integer, name());
+        addValidator(INTEGER, new TypeValidator(TypeValidator.INTEGER), R.string.validation_error_message_integer, name());
         return this;
     }
 
@@ -297,7 +313,7 @@ public class Rule {
      * @return 规则
      */
     public Rule ip() {
-        addValidator(IP, new RegexValidator(RegexValidator.Patterns.IP_ADDRESS), R.string.ip, name());
+        addValidator(IP, new RegexValidator(RegexValidator.Patterns.IP_ADDRESS), R.string.validation_error_message_ip, name());
         return this;
     }
 
@@ -345,7 +361,7 @@ public class Rule {
      * @return 规则
      */
     public Rule regex(String pattern) {
-        addValidator(REGEX, new RegexValidator(pattern), R.string.regex, name());
+        addValidator(REGEX, new RegexValidator(pattern), R.string.validation_error_message_regex, name());
         return this;
     }
 
@@ -356,7 +372,7 @@ public class Rule {
      * @return 规则
      */
     public Rule regex(Pattern pattern) {
-        addValidator(REGEX, new RegexValidator(pattern), R.string.regex, name());
+        addValidator(REGEX, new RegexValidator(pattern), R.string.validation_error_message_regex, name());
         return this;
     }
 
@@ -368,7 +384,7 @@ public class Rule {
      * @return 规则
      */
     public Rule required() {
-        addValidator(REQUIRED, new RequiredValidator(), R.string.required, name());
+        addValidator(REQUIRED, new RequiredValidator(), R.string.validation_error_message_required, name());
         return this;
     }
 
@@ -382,7 +398,7 @@ public class Rule {
      * @return 规则
      */
     public Rule url() {
-        addValidator(URL, new RegexValidator(RegexValidator.Patterns.WEB_URL), R.string.url, name());
+        addValidator(URL, new RegexValidator(RegexValidator.Patterns.WEB_URL), R.string.validation_error_message_url, name());
         return this;
     }
 
