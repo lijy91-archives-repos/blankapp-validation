@@ -22,10 +22,22 @@ public class TypeValidator extends AbstractValidator<String> {
 
     private String mValueType;
     private String mValueFormat;
+    private SimpleDateFormat mSimpleDateFormat;
 
     public TypeValidator(@ValueType String valueType, String valueFormat) {
         this.mValueType = valueType;
         this.mValueFormat = valueFormat;
+        if (DATE.equals(valueType)) {
+            mSimpleDateFormat = new SimpleDateFormat(mValueFormat);
+        }
+    }
+
+    public String type() {
+        return mValueType;
+    }
+
+    public String format() {
+        return mValueFormat;
     }
 
     @Override
@@ -33,8 +45,7 @@ public class TypeValidator extends AbstractValidator<String> {
         switch (mValueType) {
             case DATE:
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat(mValueFormat);
-                    sdf.parse(value);
+                    mSimpleDateFormat.parse(value);
                 } catch (ParseException e) {
                     return false;
                 }

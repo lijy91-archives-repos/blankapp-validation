@@ -20,7 +20,7 @@ import android.view.View;
 
 import java.util.Map;
 
-public class ValidationError extends Throwable {
+public class ValidationError {
 
     private String mName;
     private View mView;

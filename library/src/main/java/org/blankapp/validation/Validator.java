@@ -22,6 +22,7 @@ import android.view.View;
 import org.blankapp.validation.validators.AbstractValidator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,10 @@ public class Validator {
 
     public void add(Rule rule) {
         mRules.add(rule);
+    }
+
+    public void add(Rule ... rules) {
+        mRules.addAll(Arrays.asList(rules));
     }
 
     public List<Rule> rules() {

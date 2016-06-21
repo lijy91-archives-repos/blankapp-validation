@@ -29,6 +29,7 @@ import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
 import org.blankapp.validation.validators.TypeValidator;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -120,10 +121,6 @@ public class Rule {
         mErrorMessages.put(ruleName, errorMessage);
     }
 
-    public boolean isRequired() {
-        return mValidators.containsKey(REQUIRED);
-    }
-
     /**
      * 验证字段值是否为 true。这在确认「服务条款」是否同意时相当有用。
      *
@@ -134,12 +131,32 @@ public class Rule {
         return this;
     }
 
-    public Rule after(String date, String format) {
-        return after(new Date());
+    /**
+     * 验证字段是否是在指定日期之后。
+     *
+     * @param dateStr
+     * @param format
+     * @return
+     * @throws ParseException
+     */
+    public Rule after(String dateStr, String format) throws ParseException {
+        addValidator(AFTER, new DateValidator(dateStr, format, DateValidator.PATTERN_AFTER), R.string.after, name(), dateStr);
+        return this;
     }
 
+    /**
+     * 验证字段是否是在指定日期之后。
+     *
+     * @param date
+     * @return
+     */
     public Rule after(Date date) {
-        addValidator(AFTER, new DateValidator(date, DateValidator.PATTERN_AFTER), R.string.after, name());
+        String dateFormat = "yyyy-MM-dd";
+        if (mValidators.containsKey(DATE)) {
+            TypeValidator validator = (TypeValidator) mValidators.get(DATE);
+            dateFormat = validator.format();
+        }
+        addValidator(AFTER, new DateValidator(date, dateFormat, DateValidator.PATTERN_AFTER), R.string.after, name(), null);
         return this;
     }
 
@@ -179,13 +196,34 @@ public class Rule {
         return this;
     }
 
-    public Rule before(String date) {
-        addValidator(BEFORE, new DateValidator(new Date(), DateValidator.PATTERN_BEFORE), R.string.before, name());
+    /**
+     *
+     * @param dateStr 日期（字符串）
+     * @return
+     * @throws ParseException
+     */
+    public Rule before(String dateStr) throws ParseException {
+        String dateFormat = "yyyy-MM-dd";
+        if (mValidators.containsKey(DATE)) {
+            TypeValidator validator = (TypeValidator) mValidators.get(DATE);
+            dateFormat = validator.format();
+        }
+        addValidator(BEFORE, new DateValidator(dateStr, dateFormat, DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
+        return this;
+    }
+
+    public Rule before(String dateStr, String format) throws ParseException {
+        addValidator(BEFORE, new DateValidator(dateStr, format, DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
         return this;
     }
 
     public Rule before(Date date) {
-        addValidator(BEFORE, new DateValidator(date, DateValidator.PATTERN_BEFORE), R.string.before, name());
+        String dateFormat = "yyyy-MM-dd";
+        if (mValidators.containsKey(DATE)) {
+            TypeValidator validator = (TypeValidator) mValidators.get(DATE);
+            dateFormat = validator.format();
+        }
+        addValidator(BEFORE, new DateValidator(date, dateFormat, DateValidator.PATTERN_BEFORE), R.string.before, name());
         return this;
     }
 

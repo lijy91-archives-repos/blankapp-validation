@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateValidator extends AbstractValidator<Date> {
+public class DateValidator extends AbstractValidator<String> {
 
     @StringDef({
         TODAY,
@@ -94,27 +94,36 @@ public class DateValidator extends AbstractValidator<Date> {
     public static final int PATTERN_EQUAL  = 0x03;
 
     private String mDateFlag;
+    private SimpleDateFormat mSimpleDateFormat;
     private Date mDate;
+    private String mDateStr;
+    private String mDateFormat;
     private int mPattern;
 
     private DateValidator() {
     }
 
-    public DateValidator(String dateStr, String format, int pattern) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        this.mDate = sdf.parse(dateStr);
-        this.mPattern = pattern;
-    }
-
-    public DateValidator(Date date, int pattern) {
-        this.mDate = date;
-        this.mPattern = pattern;
-    }
-
     public DateValidator(@DateFlags String dateFlag, int pattern) {
         this.mDateFlag = dateFlag;
+        this.mDate = flagToDate(dateFlag);
+        this.mDateStr = dateFlag;
         this.mPattern = pattern;
-        this.mDate = makeDate(dateFlag);
+    }
+
+    public DateValidator(String dateStr, String dateFormat, int pattern) throws ParseException {
+        this.mSimpleDateFormat = new SimpleDateFormat(dateFormat);
+        this.mDate = mSimpleDateFormat.parse(dateStr);
+        this.mDateStr = dateStr;
+        this.mDateFormat = dateFormat;
+        this.mPattern = pattern;
+    }
+
+    public DateValidator(Date date, String dateFormat, int pattern) {
+        this.mSimpleDateFormat = new SimpleDateFormat(dateFormat);
+        this.mDate = date;
+        this.mDateStr = mSimpleDateFormat.format(mDate);
+        this.mDateFormat = dateFormat;
+        this.mPattern = pattern;
     }
 
     public Date date() {
@@ -125,7 +134,7 @@ public class DateValidator extends AbstractValidator<Date> {
         return mPattern;
     }
 
-    private Date makeDate(@DateFlags String dateFlag) {
+    private Date flagToDate(@DateFlags String dateFlag) {
         Calendar c = Calendar.getInstance();
         switch (dateFlag) {
             case TODAY:
@@ -144,12 +153,20 @@ public class DateValidator extends AbstractValidator<Date> {
     }
 
     @Override
-    public boolean isValid(Date date) {
+    public boolean isValid(String value) {
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat(mDateFormat);
+        try {
+            date = sdf.parse(value);
+        } catch (ParseException e) {
+            return false;
+        }
+
         switch (mPattern) {
             case PATTERN_AFTER:
-                return mDate.after(date);
+                return date.after(mDate);
             case PATTERN_BEFORE:
-                return mDate.before(date);
+                return date.before(mDate);
             case PATTERN_EQUAL:
                 return mDate.getTime() == date.getTime();
         }

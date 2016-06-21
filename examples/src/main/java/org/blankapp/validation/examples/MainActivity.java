@@ -15,6 +15,7 @@ import org.blankapp.validation.ValidationListener;
 import org.blankapp.validation.Validator;
 import org.blankapp.validation.handlers.DefaultHandler;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,12 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
         final Validator validator = new Validator();
 
-        validator.add(Rule.with(mEtEmail).required().email());
-        validator.add(Rule.with(mEtName).required().alpha().minLength(2).maxLength(32));
-        validator.add(Rule.with(mEtPassword).required().minLength(6).maxLength(32));
-        validator.add(Rule.with(mEtBirthday).required().date("yyyy-MM-dd"));
-        validator.add(Rule.with(mEtBio).required().maxLength(255));
-        validator.add(Rule.with(mCbAccepted).accepted());
+        try {
+            validator.add(Rule.with(mEtEmail, "Email").required().email());
+            validator.add(Rule.with(mEtName, "Name").required().alpha().minLength(2).maxLength(32));
+            validator.add(Rule.with(mEtPassword, "Password").required().minLength(6).maxLength(32));
+            validator.add(Rule.with(mEtBirthday, "Birthday").required().date("yyyy-MM-dd").before("2016-06-20"));
+            validator.add(Rule.with(mEtBio, "Bio").required().maxLength(255));
+            validator.add(Rule.with(mCbAccepted, "Accepted").accepted());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         validator.setErrorHandler(new DefaultHandler());
 
@@ -59,13 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onInValid(List<ValidationError> errors) {
+                StringBuilder sb = new StringBuilder();
                 for (ValidationError error : errors) {
                     Log.w("MainActivity", "Name:" + error.name());
                     for (String key : error.errorMessages().keySet()) {
                         Log.e("MainActivity", error.errorMessages().get(key));
+                        sb.append(error.errorMessages().get(key)).append("\n");
                     }
                 }
-                Toast.makeText(MainActivity.this, "验证失败。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "验证失败。\n" + sb.toString(), Toast.LENGTH_LONG).show();
             }
         });
 
