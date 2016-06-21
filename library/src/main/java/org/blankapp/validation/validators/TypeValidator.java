@@ -1,11 +1,10 @@
 package org.blankapp.validation.validators;
 
 import android.support.annotation.StringDef;
-import android.text.TextUtils;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TypeValidator extends AbstractValidator<String> {
 
@@ -23,6 +22,10 @@ public class TypeValidator extends AbstractValidator<String> {
     private String mValueType;
     private String mValueFormat;
     private SimpleDateFormat mSimpleDateFormat;
+
+    public TypeValidator(@ValueType String valueType) {
+        this(valueType, null);
+    }
 
     public TypeValidator(@ValueType String valueType, String valueFormat) {
         this.mValueType = valueType;
@@ -45,7 +48,10 @@ public class TypeValidator extends AbstractValidator<String> {
         switch (mValueType) {
             case DATE:
                 try {
-                    mSimpleDateFormat.parse(value);
+                    Date date = mSimpleDateFormat.parse(value);
+                    if (!value.equals(mSimpleDateFormat.format(date))) {
+                        return false;
+                    }
                 } catch (ParseException e) {
                     return false;
                 }

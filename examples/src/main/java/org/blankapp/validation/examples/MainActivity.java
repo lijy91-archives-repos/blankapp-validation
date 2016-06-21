@@ -14,6 +14,7 @@ import org.blankapp.validation.ValidationError;
 import org.blankapp.validation.ValidationListener;
 import org.blankapp.validation.Validator;
 import org.blankapp.validation.handlers.DefaultHandler;
+import org.blankapp.validation.validators.DateValidator;
 
 import java.text.ParseException;
 import java.util.List;
@@ -21,9 +22,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private EditText mEtEmail;
+    private EditText mEtUsername;
     private EditText mEtName;
     private EditText mEtPassword;
     private EditText mEtBirthday;
+    private EditText mEtAge;
     private EditText mEtBio;
     private CheckBox mCbAccepted;
     private Button mBtnSubmit;
@@ -34,25 +37,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.mEtEmail = (EditText) findViewById(R.id.et_email);
+        this.mEtUsername = (EditText) findViewById(R.id.et_username);
         this.mEtName = (EditText) findViewById(R.id.et_name);
         this.mEtPassword = (EditText) findViewById(R.id.et_password);
         this.mEtBirthday = (EditText) findViewById(R.id.et_birthday);
+        this.mEtAge = (EditText) findViewById(R.id.et_age);
         this.mEtBio = (EditText) findViewById(R.id.et_bio);
         this.mCbAccepted = (CheckBox) findViewById(R.id.cb_accepted);
         this.mBtnSubmit = (Button) findViewById(R.id.btn_submit);
 
         final Validator validator = new Validator();
 
-        try {
-            validator.add(Rule.with(mEtEmail, "Email").required().email());
-            validator.add(Rule.with(mEtName, "Name").required().alpha().minLength(2).maxLength(32));
-            validator.add(Rule.with(mEtPassword, "Password").required().minLength(6).maxLength(32));
-            validator.add(Rule.with(mEtBirthday, "Birthday").required().date("yyyy-MM-dd").before("2016-06-20"));
-            validator.add(Rule.with(mEtBio, "Bio").required().maxLength(255));
-            validator.add(Rule.with(mCbAccepted, "Accepted").accepted());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        validator.add(Rule.with(mEtEmail, "Email").required().email());
+        validator.add(Rule.with(mEtUsername, "Username").required().alphaDash());
+        validator.add(Rule.with(mEtName, "Name").required().minLength(2).maxLength(32));
+        validator.add(Rule.with(mEtPassword, "Password").required().minLength(6).maxLength(32));
+        validator.add(Rule.with(mEtBirthday, "Birthday").required().date("yyyy-MM-dd").before(DateValidator.TODAY));
+        validator.add(Rule.with(mEtAge, "Age").required().integer());
+        validator.add(Rule.with(mEtBio, "Bio").required().maxLength(255));
+        validator.add(Rule.with(mCbAccepted, "Accepted").accepted());
 
         validator.setErrorHandler(new DefaultHandler());
 

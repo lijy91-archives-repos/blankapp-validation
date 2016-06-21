@@ -29,7 +29,6 @@ import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
 import org.blankapp.validation.validators.TypeValidator;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -45,7 +44,9 @@ public class Rule {
     public static final String BEFORE       = "before";
     public static final String DATE         = "date";
     public static final String EMAIL        = "email";
+    public static final String INTEGER      = "integer";
     public static final String IP           = "ip";
+    public static final String JSON         = "json";
     public static final String REGEX        = "regex";
     public static final String REQUIRED     = "required";
     public static final String URL          = "url";
@@ -121,6 +122,14 @@ public class Rule {
         mErrorMessages.put(ruleName, errorMessage);
     }
 
+    private String dateFormat() {
+        if (!mValidators.containsKey(DATE)) {
+            return null;
+        }
+        TypeValidator typeValidator = (TypeValidator) mValidators.get(DATE);
+        return typeValidator.format();
+    }
+
     /**
      * 验证字段值是否为 true。这在确认「服务条款」是否同意时相当有用。
      *
@@ -135,11 +144,21 @@ public class Rule {
      * 验证字段是否是在指定日期之后。
      *
      * @param dateStr
-     * @param format
-     * @return
-     * @throws ParseException
+     * @return 规则
      */
-    public Rule after(String dateStr, String format) throws ParseException {
+    public Rule after(String dateStr) {
+        addValidator(AFTER, new DateValidator(dateStr, null, DateValidator.PATTERN_AFTER), R.string.after, name(), dateStr);
+        return this;
+    }
+
+    /**
+     * 验证字段是否是在指定日期之后。
+     *
+     * @param dateStr
+     * @param format
+     * @return 规则
+     */
+    public Rule after(String dateStr, String format) {
         addValidator(AFTER, new DateValidator(dateStr, format, DateValidator.PATTERN_AFTER), R.string.after, name(), dateStr);
         return this;
     }
@@ -148,21 +167,10 @@ public class Rule {
      * 验证字段是否是在指定日期之后。
      *
      * @param date
-     * @return
+     * @return 规则
      */
     public Rule after(Date date) {
-        String dateFormat = "yyyy-MM-dd";
-        if (mValidators.containsKey(DATE)) {
-            TypeValidator validator = (TypeValidator) mValidators.get(DATE);
-            dateFormat = validator.format();
-        }
-        addValidator(AFTER, new DateValidator(date, dateFormat, DateValidator.PATTERN_AFTER), R.string.after, name(), null);
-        return this;
-    }
-
-    public Rule after(@DateValidator.DateFlags String dateFlag) {
-        DateValidator dateValidator = new DateValidator(dateFlag, DateValidator.PATTERN_AFTER);
-        addValidator(AFTER, dateValidator, R.string.after, name(), dateValidator.date());
+        addValidator(AFTER, new DateValidator(date, dateFormat(), DateValidator.PATTERN_AFTER), R.string.after, name(), null);
         return this;
     }
 
@@ -197,33 +205,36 @@ public class Rule {
     }
 
     /**
+     * 验证字段是否是在指定日期之前。
      *
-     * @param dateStr 日期（字符串）
-     * @return
-     * @throws ParseException
+     * @param dateStr 日期字符串
+     * @return 规则
      */
-    public Rule before(String dateStr) throws ParseException {
-        String dateFormat = "yyyy-MM-dd";
-        if (mValidators.containsKey(DATE)) {
-            TypeValidator validator = (TypeValidator) mValidators.get(DATE);
-            dateFormat = validator.format();
-        }
-        addValidator(BEFORE, new DateValidator(dateStr, dateFormat, DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
+    public Rule before(String dateStr) {
+        addValidator(BEFORE, new DateValidator(dateStr, dateFormat(), DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
         return this;
     }
 
-    public Rule before(String dateStr, String format) throws ParseException {
+    /**
+     * 验证字段是否是在指定日期之前。
+     *
+     * @param dateStr 日期字符串
+     * @param format 日期格式
+     * @return 规则
+     */
+    public Rule before(String dateStr, String format) {
         addValidator(BEFORE, new DateValidator(dateStr, format, DateValidator.PATTERN_BEFORE), R.string.before, name(), dateStr);
         return this;
     }
 
+    /**
+     * 验证字段是否是在指定日期之前。
+     *
+     * @param date 日期对象
+     * @return 规则
+     */
     public Rule before(Date date) {
-        String dateFormat = "yyyy-MM-dd";
-        if (mValidators.containsKey(DATE)) {
-            TypeValidator validator = (TypeValidator) mValidators.get(DATE);
-            dateFormat = validator.format();
-        }
-        addValidator(BEFORE, new DateValidator(date, dateFormat, DateValidator.PATTERN_BEFORE), R.string.before, name());
+        addValidator(BEFORE, new DateValidator(date, dateFormat(), DateValidator.PATTERN_BEFORE), R.string.before, name());
         return this;
     }
 
@@ -277,6 +288,7 @@ public class Rule {
      * @return 规则
      */
     public Rule integer() {
+        addValidator(INTEGER, new TypeValidator(TypeValidator.INTEGER), R.string.integer, name());
         return this;
     }
 
@@ -326,26 +338,25 @@ public class Rule {
         return this;
     }
 
-
     /**
      * 验证字段值是否符合指定的正则表达式。
      *
-     * @param pattern
+     * @param pattern 正则表达式（字符串）
      * @return 规则
      */
     public Rule regex(String pattern) {
-        addValidator(REGEX,new RegexValidator(pattern), R.string.regex, name());
+        addValidator(REGEX, new RegexValidator(pattern), R.string.regex, name());
         return this;
     }
 
     /**
      * 验证字段值是否符合指定的正则表达式。
      *
-     * @param pattern
+     * @param pattern 正则表达式（Pattern）
      * @return 规则
      */
     public Rule regex(Pattern pattern) {
-        addValidator(REGEX,new RegexValidator(pattern), R.string.regex, name());
+        addValidator(REGEX, new RegexValidator(pattern), R.string.regex, name());
         return this;
     }
 
@@ -353,7 +364,8 @@ public class Rule {
      * 验证字段必须存在输入数据，且不为空。字段符合下方任一条件时即为「空」
      *  1、该值为 null。
      *  2、该值为空字符串。
-     * @return
+     *
+     * @return 规则
      */
     public Rule required() {
         addValidator(REQUIRED, new RequiredValidator(), R.string.required, name());
@@ -375,11 +387,12 @@ public class Rule {
     }
 
     /**
-     * 增加自定义验证规则
+     * 增加自定义验证规则。
+     *
      * @param ruleName 规则名称
      * @param validator 验证器
      * @param errorMessage 验证失败消息
-     * @return
+     * @return 规则
      */
     public Rule extend(String ruleName, AbstractValidator validator, String errorMessage) {
         addValidator(ruleName, validator, errorMessage);

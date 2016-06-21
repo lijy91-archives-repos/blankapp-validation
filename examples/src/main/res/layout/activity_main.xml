@@ -21,6 +21,13 @@
         android:layout_height="wrap_content"
         android:hint="Email" />
 
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username" />
+
     <EditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
@@ -40,6 +47,12 @@
         android:layout_height="wrap_content"
         android:hint="Birthday"
         android:inputType="date" />
+
+    <EditText
+        android:id="@+id/et_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age" />
 
     <EditText
         android:id="@+id/et_bio"

@@ -10,6 +10,7 @@
     <string name="date">The %1$s is not a valid date.</string>
     <string name="date_format">The %1$s does not match the format %2$s.</string>
     <string name="email">The %1$s must be a valid email address.</string>
+    <string name="integer">The %1$s must be an integer.</string>
     <string name="ip">The %1$s must be a valid IP address.</string>
     <string name="json">The %1$s must be a valid JSON string.</string>
     <string name="regex">The %1$s format is invalid.</string>

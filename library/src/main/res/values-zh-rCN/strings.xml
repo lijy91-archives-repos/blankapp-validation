@@ -10,6 +10,7 @@
     <string name="date">%1$s 不是一个有效的日期。</string>
     <string name="date_format">%1$s 的格式必须为 %2$s。</string>
     <string name="email">%1$s 不是一个合法的邮箱。</string>
+    <string name="integer">%1$s 必须是整数。</string>
     <string name="ip">%1$s 必须是有效的 IP 地址。</string>
     <string name="json">%1$s 必须是正确的 JSON 格式。</string>
     <string name="regex">%1$s 格式不正确。</string>

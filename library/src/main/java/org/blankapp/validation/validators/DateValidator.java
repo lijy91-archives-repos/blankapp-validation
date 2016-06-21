@@ -103,16 +103,13 @@ public class DateValidator extends AbstractValidator<String> {
     private DateValidator() {
     }
 
-    public DateValidator(@DateFlags String dateFlag, int pattern) {
-        this.mDateFlag = dateFlag;
-        this.mDate = flagToDate(dateFlag);
-        this.mDateStr = dateFlag;
-        this.mPattern = pattern;
-    }
-
-    public DateValidator(String dateStr, String dateFormat, int pattern) throws ParseException {
+    public DateValidator(String dateStr, String dateFormat, int pattern) {
         this.mSimpleDateFormat = new SimpleDateFormat(dateFormat);
-        this.mDate = mSimpleDateFormat.parse(dateStr);
+        try {
+            this.mDate = mSimpleDateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            this.mDate = flagToDate(dateStr);
+        }
         this.mDateStr = dateStr;
         this.mDateFormat = dateFormat;
         this.mPattern = pattern;
@@ -146,9 +143,11 @@ public class DateValidator extends AbstractValidator<String> {
                 c.add(Calendar.DATE, -1);
                 break;
         }
+        // 将时、分、秒、毫秒置为0，仅对比日期。
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
         return c.getTime();
     }
 
