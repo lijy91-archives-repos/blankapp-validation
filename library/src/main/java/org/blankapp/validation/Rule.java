@@ -27,6 +27,7 @@ import android.widget.EditText;
 import org.blankapp.validation.validators.AcceptedValidator;
 import org.blankapp.validation.validators.AbstractValidator;
 import org.blankapp.validation.validators.DateValidator;
+import org.blankapp.validation.validators.JSONValidator;
 import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
 import org.blankapp.validation.validators.TypeValidator;
@@ -258,10 +259,6 @@ public class Rule {
         return this;
     }
 
-    public Rule confirmed() {
-        return this;
-    }
-
     /**
      * 验证字段值是否为有效日期。
      *
@@ -323,6 +320,7 @@ public class Rule {
      * @return 规则
      */
     public Rule json() {
+        addValidator(JSON, new JSONValidator(), R.string.validation_error_message_json, name());
         return this;
     }
 
@@ -386,10 +384,6 @@ public class Rule {
     public Rule required() {
         addValidator(REQUIRED, new RequiredValidator(), R.string.validation_error_message_required, name());
         return this;
-    }
-
-    public Rule size(int value) {
-        return null;
     }
 
     /**

@@ -16,10 +16,44 @@
 
 package org.blankapp.validation.validators;
 
+import android.support.annotation.IntDef;
+
 public class NumericValidator extends AbstractValidator<Number> {
+
+    @IntDef({
+            PATTERN_MIN,
+            PATTERN_MAX,
+            PATTERN_BETWEEN,
+    })
+    public @interface Patterns {}
+
+    public static final int PATTERN_MIN = 0x01;
+    public static final int PATTERN_MAX = 0x02;
+    public static final int PATTERN_BETWEEN = 0x03;
+
+    private Number mMin = 0;
+    private Number mMax = 0;
+    private int mPattern = 0;
+
+    public NumericValidator(Number min, Number max, @Patterns int pattern) {
+        this.mMin = min;
+        this.mMax = max;
+        this.mPattern = pattern;
+    }
 
     @Override
     public boolean isValid(Number number) {
+        if (number == null) {
+            return false;
+        }
+        switch (mPattern) {
+            case PATTERN_MIN:
+                break;
+            case PATTERN_MAX:
+                break;
+            case PATTERN_BETWEEN:
+                break;
+        }
         return false;
     }
 
