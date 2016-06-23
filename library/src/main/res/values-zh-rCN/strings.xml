@@ -26,7 +26,7 @@
     <string name="validation_date_next_friday">下周五</string>
     <string name="validation_date_next_saturday">下周六</string>
     <string name="validation_error_message_accepted">%1$s 必须接受。</string>
-    <string name="validation_error_message_after">%1$s 必须是一个在 :date 之后的日期。</string>
+    <string name="validation_error_message_after">%1$s 必须是一个在 %2$s 之后的日期。</string>
     <string name="validation_error_message_alpha">%1$s 只能由字母组成。</string>
     <string name="validation_error_message_alpha_dash">%1$s 只能由字母、数字和斜杠组成。</string>
     <string name="validation_error_message_alpha_num">%1$s 只能由字母和数字组成。</string>
@@ -36,6 +36,10 @@
     <string name="validation_error_message_integer">%1$s 必须是整数。</string>
     <string name="validation_error_message_ip">%1$s 必须是有效的 IP 地址。</string>
     <string name="validation_error_message_json">%1$s 必须是正确的 JSON 格式。</string>
+    <string name="validation_error_message_max">%1$s 不能大于 %2$s。</string>
+    <string name="validation_error_message_max_length">%1$s 不能大于 %2$s 个字符。</string>
+    <string name="validation_error_message_min">%1$s 必须大于等于 %2$s。</string>
+    <string name="validation_error_message_min_length">%1$s 至少为 %2$s 个字符。</string>
     <string name="validation_error_message_regex">%1$s 格式不正确。</string>
     <string name="validation_error_message_required">%1$s 不能为空。</string>
     <string name="validation_error_message_url">%1$s 不是一个有效的网址。</string>

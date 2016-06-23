@@ -28,8 +28,10 @@ import org.blankapp.validation.validators.AcceptedValidator;
 import org.blankapp.validation.validators.AbstractValidator;
 import org.blankapp.validation.validators.DateValidator;
 import org.blankapp.validation.validators.JSONValidator;
+import org.blankapp.validation.validators.NumericValidator;
 import org.blankapp.validation.validators.RegexValidator;
 import org.blankapp.validation.validators.RequiredValidator;
+import org.blankapp.validation.validators.TextValidator;
 import org.blankapp.validation.validators.TypeValidator;
 
 import java.util.Date;
@@ -50,6 +52,10 @@ public class Rule {
     public static final String INTEGER      = "integer";
     public static final String IP           = "ip";
     public static final String JSON         = "json";
+    public static final String MAX          = "max";
+    public static final String MAX_LENGTH   = "maxLength";
+    public static final String MIN          = "min";
+    public static final String MIN_LENGTH   = "minLength";
     public static final String REGEX        = "regex";
     public static final String REQUIRED     = "required";
     public static final String URL          = "url";
@@ -103,10 +109,10 @@ public class Rule {
     }
 
     public Object value() {
-        if (mView instanceof EditText) {
-            return ((EditText) mView).getText().toString();
-        } else if (mView instanceof CheckBox) {
+        if (mView instanceof CheckBox) {
             return ((CheckBox) mView).isChecked();
+        } else if (mView instanceof EditText) {
+            return  ((EditText) mView).getText().toString();
         }
         return null;
     }
@@ -331,19 +337,47 @@ public class Rule {
         return this;
     }
 
-    public Rule max(long value) {
+    /**
+     * 字段值必须小于或等于 value 。
+     *
+     * @param value
+     * @return 规则
+     */
+    public Rule max(double value) {
+        addValidator(MAX, new NumericValidator(0, value, NumericValidator.PATTERN_MIN_VALUE), R.string.validation_error_message_max, name(), value);
         return this;
     }
 
-    public Rule maxLength(long value) {
+    /**
+     * 字段值不能大于 value 个字符。
+     *
+     * @param value 最大字符串
+     * @return 规则
+     */
+    public Rule maxLength(int value) {
+        addValidator(MAX_LENGTH, new TextValidator(0, value, TextValidator.PATTERN_MAX_LENGTH), R.string.validation_error_message_max_length, name(), value);
         return this;
     }
 
-    public Rule min(long value) {
+    /**
+     * 字段值必须大于或等于 value。
+     *
+     * @param value
+     * @return 规则
+     */
+    public Rule min(double value) {
+        addValidator(MIN, new NumericValidator(value, 0, NumericValidator.PATTERN_MIN_VALUE), R.string.validation_error_message_min, name(), value);
         return this;
     }
 
-    public Rule minLength(long value) {
+    /**
+     * 字段值至少为 value 个字符。
+     *
+     * @param value 最小字符数
+     * @return 规则
+     */
+    public Rule minLength(int value) {
+        addValidator(MIN_LENGTH, new TextValidator(value, 0, TextValidator.PATTERN_MIN_LENGTH), R.string.validation_error_message_min_length, name(), value);
         return this;
     }
 

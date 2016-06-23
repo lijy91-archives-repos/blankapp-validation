@@ -34,7 +34,7 @@ public class TextValidator extends AbstractValidator<String> {
 
     private int mMaxLength = 0;
     private int mMinLength = 0;
-    private int mPattern = 0;
+    private int mPattern   = 0;
 
     public TextValidator(int minLength, int maxLength, @Patterns int pattern) {
         this.mMinLength = minLength;
@@ -44,7 +44,7 @@ public class TextValidator extends AbstractValidator<String> {
 
     @Override
     public boolean isValid(String value) {
-        if (TextUtils.isEmpty(value)) {
+        if (value == null) {
             return false;
         }
         switch (this.mPattern) {

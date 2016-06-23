@@ -18,41 +18,48 @@ package org.blankapp.validation.validators;
 
 import android.support.annotation.IntDef;
 
-public class NumericValidator extends AbstractValidator<Number> {
+public class NumericValidator extends AbstractValidator<String> {
 
     @IntDef({
-            PATTERN_MIN,
-            PATTERN_MAX,
-            PATTERN_BETWEEN,
+            PATTERN_MIN_VALUE,
+            PATTERN_MAX_VALUE,
+            PATTERN_BETWEEN_VALUE,
     })
     public @interface Patterns {}
 
-    public static final int PATTERN_MIN = 0x01;
-    public static final int PATTERN_MAX = 0x02;
-    public static final int PATTERN_BETWEEN = 0x03;
+    public static final int PATTERN_MIN_VALUE = 0x01;
+    public static final int PATTERN_MAX_VALUE = 0x02;
+    public static final int PATTERN_BETWEEN_VALUE = 0x03;
 
-    private Number mMin = 0;
-    private Number mMax = 0;
+    private double mMinValue = 0;
+    private double mMaxValue = 0;
     private int mPattern = 0;
 
-    public NumericValidator(Number min, Number max, @Patterns int pattern) {
-        this.mMin = min;
-        this.mMax = max;
+    public NumericValidator(double minValue, double maxValue, @Patterns int pattern) {
+        this.mMinValue = minValue;
+        this.mMaxValue = maxValue;
         this.mPattern = pattern;
     }
 
     @Override
-    public boolean isValid(Number number) {
-        if (number == null) {
+    public boolean isValid(String value) {
+        if (value == null) {
+            return false;
+        }
+
+        double numeric = 0;
+        try {
+            numeric = Double.parseDouble(value);
+        } catch (NumberFormatException e) {
             return false;
         }
         switch (mPattern) {
-            case PATTERN_MIN:
-                break;
-            case PATTERN_MAX:
-                break;
-            case PATTERN_BETWEEN:
-                break;
+            case PATTERN_MIN_VALUE:
+                return numeric >= mMinValue;
+            case PATTERN_MAX_VALUE:
+                return numeric <= mMaxValue;
+            case PATTERN_BETWEEN_VALUE:
+                return numeric >= mMinValue && numeric <= mMaxValue;
         }
         return false;
     }
