@@ -55,8 +55,7 @@ public class Rule {
     public static final String URL          = "url";
 
     public static Rule with(View view) {
-        String name = view.getResources().getString(R.string.validation_field);
-        return new Rule(view, name);
+        return new Rule(view, null);
     }
 
     public static Rule with(View view, @StringRes int nameResId) {
@@ -85,6 +84,14 @@ public class Rule {
         this.mResources = view.getResources();
         this.mValidators = new LinkedHashMap<>();
         this.mErrorMessages = new LinkedHashMap<>();
+
+        if (mName == null) {
+            String viewIdName = mResources.getResourceName(view.getId());
+            String fieldName = viewIdName.substring(viewIdName.indexOf('_') + 1);
+            Log.e("Rule", "validation_field_" + fieldName);
+            int resId = mResources.getIdentifier("validation_field_" + fieldName, "string", mPackageName);
+            this.mName = mResources.getString(resId == 0 ? R.string.validation_field : resId);
+        }
     }
 
     public String name() {

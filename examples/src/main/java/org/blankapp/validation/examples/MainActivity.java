@@ -47,14 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         final Validator validator = new Validator();
 
-        validator.add(Rule.with(mEdtEmail, "Email").required().email());
-        validator.add(Rule.with(mEdtUsername, "Username").required().alphaDash());
-        validator.add(Rule.with(mEdtName, "Name").required().minLength(2).maxLength(32));
-        validator.add(Rule.with(mEdtPassword, "Password").required().minLength(6).maxLength(32));
-        validator.add(Rule.with(mEdtBirthday, "Birthday").required().date("yyyy-MM-dd").before(DateValidator.TODAY));
-        validator.add(Rule.with(mEdtAge, "Age").required().integer());
-        validator.add(Rule.with(mEdtBio, "Bio").required().maxLength(255));
-        validator.add(Rule.with(mCbAccepted, "Accepted").accepted());
+        validator.add(Rule.with(mEdtEmail).required().email());
+        validator.add(Rule.with(mEdtUsername).required().alphaDash());
+        validator.add(Rule.with(mEdtName).required().minLength(2).maxLength(32));
+        validator.add(Rule.with(mEdtPassword).required().minLength(6).maxLength(32));
+        validator.add(Rule.with(mEdtBirthday).required().date("yyyy-MM-dd").before(DateValidator.TODAY));
+        validator.add(Rule.with(mEdtAge).required().integer());
+        validator.add(Rule.with(mEdtBio).required().maxLength(255));
+        validator.add(Rule.with(mCbAccepted, "用户协议").accepted());
 
         validator.setErrorHandler(new DefaultHandler());
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public void onInValid(List<ValidationError> errors) {
                 StringBuilder sb = new StringBuilder();
                 for (ValidationError error : errors) {
-                    Log.w("MainActivity", "Name:" + error.name());
+                    Log.w("MainActivity", "Name:" + getResources().getResourceName(error.view().getId()));
                     for (String key : error.errorMessages().keySet()) {
                         Log.e("MainActivity", error.errorMessages().get(key));
                         sb.append(error.errorMessages().get(key)).append("\n");

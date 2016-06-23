@@ -1,6 +1,8 @@
-# BLANKAPP-VALIDATION
+# BLANKAPP-VALIDATION (正在开发)
 
 [![Build Status](https://api.travis-ci.org/lijy91/blankapp-validation.svg?branch=master)](https://travis-ci.org/lijy91/blankapp-validation)
+
+[阅读文档](https://github.com/lijy91/blankapp-validation/blob/master/docs/VALIDATION.md)
 
 ## 如何使用
 
