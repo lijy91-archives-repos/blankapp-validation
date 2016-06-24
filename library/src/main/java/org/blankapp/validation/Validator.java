@@ -99,9 +99,11 @@ public class Validator {
             }
         }
         if (mErrors.size() > 0) {
+            if (mErrorHandler != null) mErrorHandler.onInValid(mRules, mErrors);
             if (mValidationListener != null) mValidationListener.onInValid(mErrors);
             return false;
         }
+        if (mErrorHandler != null) mErrorHandler.onValid(mRules);
         if (mValidationListener != null) mValidationListener.onValid();
         return true;
     }

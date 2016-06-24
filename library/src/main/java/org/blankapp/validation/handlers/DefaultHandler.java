@@ -16,21 +16,46 @@
 
 package org.blankapp.validation.handlers;
 
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import org.blankapp.validation.ErrorHandler;
+import org.blankapp.validation.Rule;
 import org.blankapp.validation.ValidationError;
 
 import java.util.List;
 
 public class DefaultHandler implements ErrorHandler {
 
-    @Override
-    public void onValid() {
 
+    @Override
+    public void onValid(List<Rule> rules) {
+        for (Rule rule : rules) {
+            View view = rule.view();
+
+            if (view instanceof EditText) {
+                ((EditText) view).setError(null);
+            }
+        }
     }
 
     @Override
-    public void onInValid(List<ValidationError> errors) {
-
+    public void onInValid(List<Rule> rules, List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.view();
+            StringBuilder sb = new StringBuilder();
+            for (String key : error.errorMessages().keySet()) {
+                if (!"".equals(sb.toString())) {
+                    sb.append("\n");
+                }
+                sb.append(error.errorMessages().get(key));
+            }
+            if (view instanceof TextView) {
+                ((TextView) view).setError(sb.toString());
+            }
+        }
     }
 
 }

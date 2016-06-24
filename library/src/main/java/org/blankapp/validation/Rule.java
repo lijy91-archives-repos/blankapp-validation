@@ -114,7 +114,7 @@ public class Rule {
         if (mView instanceof CheckBox) {
             return ((CheckBox) mView).isChecked();
         } else if (mView instanceof EditText) {
-            return  ((EditText) mView).getText().toString();
+            return String.valueOf(((EditText) mView).getText());
         }
         return null;
     }

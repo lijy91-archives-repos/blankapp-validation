@@ -16,5 +16,11 @@
 
 package org.blankapp.validation;
 
-public interface ErrorHandler extends ValidationListener {
+import java.util.List;
+
+public interface ErrorHandler {
+
+    void onValid(List<Rule> rules);
+
+    void onInValid(List<Rule> rules, List<ValidationError> errors);
 }

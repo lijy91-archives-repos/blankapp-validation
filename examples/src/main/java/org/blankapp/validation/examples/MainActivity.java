@@ -14,7 +14,8 @@ import org.blankapp.validation.ValidationError;
 import org.blankapp.validation.ValidationListener;
 import org.blankapp.validation.Validator;
 import org.blankapp.validation.handlers.DefaultHandler;
-import org.blankapp.validation.validators.DateValidator;
+
+import static org.blankapp.validation.validators.DateValidator.TODAY;
 
 import java.util.List;
 
@@ -35,29 +36,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.mEdtEmail = (EditText) findViewById(R.id.edt_email);
+        this.mEdtEmail    = (EditText) findViewById(R.id.edt_email);
         this.mEdtUsername = (EditText) findViewById(R.id.edt_username);
-        this.mEdtName = (EditText) findViewById(R.id.edt_name);
+        this.mEdtName     = (EditText) findViewById(R.id.edt_name);
         this.mEdtPassword = (EditText) findViewById(R.id.edt_password);
         this.mEdtBirthday = (EditText) findViewById(R.id.edt_birthday);
-        this.mEdtAge = (EditText) findViewById(R.id.edt_age);
-        this.mEdtBio = (EditText) findViewById(R.id.edt_bio);
-        this.mCbAccepted = (CheckBox) findViewById(R.id.cb_accepted);
-        this.mBtnSubmit = (Button) findViewById(R.id.btn_submit);
+        this.mEdtAge      = (EditText) findViewById(R.id.edt_age);
+        this.mEdtBio      = (EditText) findViewById(R.id.edt_bio);
+        this.mCbAccepted  = (CheckBox) findViewById(R.id.cb_accepted);
+        this.mBtnSubmit   = (Button) findViewById(R.id.btn_submit);
 
+        // 实例化一个验证器
         final Validator validator = new Validator();
 
+        // 构建你的规则链并添加到验证器
         validator.add(Rule.with(mEdtEmail).required().email());
         validator.add(Rule.with(mEdtUsername).required().alphaDash());
         validator.add(Rule.with(mEdtName).required().minLength(2).maxLength(32));
         validator.add(Rule.with(mEdtPassword).required().minLength(6).maxLength(32));
-        validator.add(Rule.with(mEdtBirthday).required().date("yyyy-MM-dd").before(DateValidator.TODAY));
+        validator.add(Rule.with(mEdtBirthday).required().date("yyyy-MM-dd").before(TODAY));
         validator.add(Rule.with(mEdtAge).required().integer().min(20).max(100));
         validator.add(Rule.with(mEdtBio).required().maxLength(5));
         validator.add(Rule.with(mCbAccepted, "用户协议").accepted());
 
+        // 设置验证失败处理器
         validator.setErrorHandler(new DefaultHandler());
 
+        // 设置验证监听器
         validator.setValidatorListener(new ValidationListener() {
             @Override
             public void onValid() {
@@ -77,10 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "验证失败。\n" + sb.toString(), Toast.LENGTH_LONG).show();
             }
         });
-
-        new DateValidator(DateValidator.THIS_SUNDAY, "yyyy-MM-dd", DateValidator.PATTERN_EQUAL);
-        new DateValidator(DateValidator.LAST_SUNDAY, "yyyy-MM-dd", DateValidator.PATTERN_EQUAL);
-        new DateValidator(DateValidator.NEXT_SUNDAY, "yyyy-MM-dd", DateValidator.PATTERN_EQUAL);
 
         mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

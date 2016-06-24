@@ -10,71 +10,83 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.blankapp.validation.examples.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
-    <EditText
-        android:id="@+id/edt_email"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edt_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Username" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edt_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello World!" />
 
-    <EditText
-        android:id="@+id/edt_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email" />
 
-    <EditText
-        android:id="@+id/edt_password_confirmation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password confirmation"
-        android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username" />
 
-    <EditText
-        android:id="@+id/edt_birthday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Birthday"
-        android:inputType="date" />
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name" />
 
-    <EditText
-        android:id="@+id/edt_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Age" />
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/edt_bio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Bio" />
+            <EditText
+                android:id="@+id/edt_password_confirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password confirmation"
+                android:inputType="textPassword" />
 
-    <CheckBox
-        android:id="@+id/cb_accepted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="同意服务条款" />
+            <EditText
+                android:id="@+id/edt_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Birthday"
+                android:inputType="date" />
 
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="提交" />
+            <EditText
+                android:id="@+id/edt_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Age" />
+
+            <EditText
+                android:id="@+id/edt_bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bio" />
+
+            <CheckBox
+                android:id="@+id/cb_accepted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:text="同意服务条款" />
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="提交" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
