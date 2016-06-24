@@ -61,6 +61,38 @@ validator.setValidatorListener(new ValidationListener() {
 });
 ```
 
+### 添加自定义的字段名
+在你构建规则时，如果不指定字段名，程序将会根据传入 View 的 Id 按规则从 strings 资源里获取字段名
+
+资源名的命名规则为：前缀 `validation_field_` 与移除前缀后的 `viewId` 拼接组成。
+如果 `viewId` 为 `edt_email`，则该字段名的资源名为 `validation_field_email`
+P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀，如 `btn_`、`edt_` 等 
+
+示例：
+```xml
+<string name="validation_field_email">电子邮箱</string>
+<string name="validation_field_username">用户名</string>
+<string name="validation_field_name">姓名</string>
+<string name="validation_field_password">密码</string>
+<string name="validation_field_birthday">生日</string>
+<string name="validation_field_age">年龄</string>
+<string name="validation_field_bio">简介</string>
+```
+### 自定义默认错误消息
+
+将需要修改的错误消息添加到你的项目资源文件里，[查看全部可配置的错误消息](https://github.com/lijy91/blankapp-validation/blob/master/library/src/main/res/values-zh-rCN/strings.xml)。
+ 
+示例：
+```xml
+...
+<string name="validation_error_message_accepted">%1$s 必须接受。</string>
+<string name="validation_error_message_after">%1$s 必须是一个在 %2$s 之后的日期。</string>
+<string name="validation_error_message_alpha">%1$s 只能由字母组成。</string>
+<string name="validation_error_message_alpha_dash">%1$s 只能由字母、数字和破折号组成。</string>
+<string name="validation_error_message_alpha_num">%1$s 只能由字母和数字组成。</string>
+...
+```
+
 ## 编译
 
 ```
