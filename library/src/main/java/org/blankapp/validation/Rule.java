@@ -26,6 +26,7 @@ import android.widget.EditText;
 
 import org.blankapp.validation.validators.AcceptedValidator;
 import org.blankapp.validation.validators.AbstractValidator;
+import org.blankapp.validation.validators.ConfirmValidator;
 import org.blankapp.validation.validators.DateValidator;
 import org.blankapp.validation.validators.JSONValidator;
 import org.blankapp.validation.validators.NumericValidator;
@@ -47,6 +48,7 @@ public class Rule {
     public static final String ALPHA_DASH   = "alphaDash";
     public static final String ALPHA_NUM    = "alphaNum";
     public static final String BEFORE       = "before";
+    public static final String CONFIRMED    = "confirmed";
     public static final String DATE         = "date";
     public static final String EMAIL        = "email";
     public static final String INTEGER      = "integer";
@@ -273,6 +275,17 @@ public class Rule {
     }
 
     /**
+     * 验证字段值必须和 field_confirmation 的字段值一致。
+     * 例如，如果要验证的字段是 password，就必须和输入数据里的 password_confirmation 的值保持一致。
+     *
+     * @return 规则
+     */
+    public Rule confirmed() {
+        addValidator(CONFIRMED, new ConfirmValidator(), R.string.validation_error_message_confirmed, name());
+        return this;
+    }
+
+    /**
      * 验证字段值是否为有效日期。
      *
      * @return 规则
@@ -337,6 +350,11 @@ public class Rule {
         return this;
     }
 
+    public Rule max(long value) {
+        addValidator(MAX, new NumericValidator(0, value, NumericValidator.PATTERN_MIN_VALUE), R.string.validation_error_message_max, name(), value);
+        return this;
+    }
+
     /**
      * 字段值必须小于或等于 value 。
      *
@@ -354,8 +372,13 @@ public class Rule {
      * @param value 最大字符串
      * @return 规则
      */
-    public Rule maxLength(int value) {
+    public Rule maxLength(long value) {
         addValidator(MAX_LENGTH, new TextValidator(0, value, TextValidator.PATTERN_MAX_LENGTH), R.string.validation_error_message_max_length, name(), value);
+        return this;
+    }
+
+    public Rule min(int value) {
+        addValidator(MIN, new NumericValidator(value, 0, NumericValidator.PATTERN_MIN_VALUE), R.string.validation_error_message_min, name(), value);
         return this;
     }
 
@@ -376,7 +399,7 @@ public class Rule {
      * @param value 最小字符数
      * @return 规则
      */
-    public Rule minLength(int value) {
+    public Rule minLength(long value) {
         addValidator(MIN_LENGTH, new TextValidator(value, 0, TextValidator.PATTERN_MIN_LENGTH), R.string.validation_error_message_min_length, name(), value);
         return this;
     }

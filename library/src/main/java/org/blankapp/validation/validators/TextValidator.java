@@ -32,11 +32,11 @@ public class TextValidator extends AbstractValidator<String> {
     public static final int PATTERN_MAX_LENGTH     = 0x02;
     public static final int PATTERN_BETWEEN_LENGTH = 0x03;
 
-    private int mMaxLength = 0;
-    private int mMinLength = 0;
+    private long mMaxLength = 0;
+    private long mMinLength = 0;
     private int mPattern   = 0;
 
-    public TextValidator(int minLength, int maxLength, @Patterns int pattern) {
+    public TextValidator(long minLength, long maxLength, @Patterns int pattern) {
         this.mMinLength = minLength;
         this.mMaxLength = maxLength;
         this.mPattern = pattern;

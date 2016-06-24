@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:hint="Email" />
 
-
     <EditText
         android:id="@+id/edt_username"
         android:layout_width="match_parent"
@@ -39,6 +38,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/edt_password_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password confirmation"
         android:inputType="textPassword" />
 
     <EditText

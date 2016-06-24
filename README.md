@@ -28,7 +28,7 @@ dependencies {
 // 实例化一个验证器
 final Validator validator = new Validator();
 
-// 添加指定的验证规则到验证器
+// 构建你的规则链并添加到验证器
 validator.add(Rule.with(mEtEmail).required().email());
 validator.add(Rule.with(mEtUsername).required().alphaDash());
 validator.add(Rule.with(mEtName).required().minLength(2).maxLength(32));
@@ -64,7 +64,7 @@ validator.setValidatorListener(new ValidationListener() {
 ## 编译
 
 ```
-$ ./gradlew clean library:build library:uploadArchives 
+$ ./gradlew clean library:build library:uploadArchives
 ```
 
 ## License
