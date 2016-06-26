@@ -56,8 +56,10 @@ numeric
 验证字段值是否为有效日期。
 
 ##### digits
+验证字段值是否为 numeric 且长度为 value。
 
 ##### digitsBetween
+验证字段值的长度是否在 min 和 max 之间。
 
 ##### email
 验证字段值是否符合 E-Mail 格式。
@@ -74,12 +76,16 @@ numeric
 验证字段是否是一个有效的 JSON 字符串。
 
 ##### max
+字段值必须小于或等于 value 。
 
 ##### maxLength
+验证字段值的长度不能大于 value 个字符。
 
 ##### min
+字段值必须大于或等于 value。
 
 ##### minLength
+验证字段值的长度至少为 value 个字符。
 
 ##### notIn
 

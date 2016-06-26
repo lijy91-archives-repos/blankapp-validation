@@ -33,6 +33,8 @@
     <string name="validation_error_message_before">%1$s 必须是一个在 %2$s 之前的日期。</string>
     <string name="validation_error_message_confirmed">%1$s 两次输入不一致。</string>
     <string name="validation_error_message_date">%1$s 不是一个有效的日期。</string>
+    <string name="validation_error_message_digits">%1$s 必须是 %2$s 位的数字。</string>
+    <string name="validation_error_message_digits_between">%1$s 必须是介于 %2$s 和 %3$s 位的数字。</string>
     <string name="validation_error_message_email">%1$s 不是一个合法的邮箱。</string>
     <string name="validation_error_message_integer">%1$s 必须是整数。</string>
     <string name="validation_error_message_ip">%1$s 必须是有效的 IP 地址。</string>
@@ -41,6 +43,7 @@
     <string name="validation_error_message_max_length">%1$s 不能大于 %2$s 个字符。</string>
     <string name="validation_error_message_min">%1$s 必须大于等于 %2$s。</string>
     <string name="validation_error_message_min_length">%1$s 至少为 %2$s 个字符。</string>
+    <string name="validation_error_message_numeric">%1$s 必须是一个数字。</string>
     <string name="validation_error_message_regex">%1$s 格式不正确。</string>
     <string name="validation_error_message_required">%1$s 不能为空。</string>
     <string name="validation_error_message_url">%1$s 不是一个有效的网址。</string>

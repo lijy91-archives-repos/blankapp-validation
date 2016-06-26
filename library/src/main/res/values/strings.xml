@@ -33,6 +33,8 @@
     <string name="validation_error_message_before">The %1$s must be a date before %2$s.</string>
     <string name="validation_error_message_confirmed">The %1$s confirmation does not match.</string>
     <string name="validation_error_message_date">The %1$s is not a valid date.</string>
+    <string name="validation_error_message_digits">The %1$s must be %2$s digits.</string>
+    <string name="validation_error_message_digits_between">The %1$s must be between %2$s and %3$s digits.</string>
     <string name="validation_error_message_email">The %1$s must be a valid email address.</string>
     <string name="validation_error_message_integer">The %1$s must be an integer.</string>
     <string name="validation_error_message_ip">The %1$s must be a valid IP address.</string>
@@ -41,6 +43,7 @@
     <string name="validation_error_message_max_length">The %1$s may not be greater than %2$s characters.</string>
     <string name="validation_error_message_min">The %1$s must be at least %2$s.</string>
     <string name="validation_error_message_min_length">The %1$s must be at least %2$s characters.</string>
+    <string name="validation_error_message_numeric">The %1$s must be a number.</string>
     <string name="validation_error_message_regex">The %1$s format is invalid.</string>
     <string name="validation_error_message_required">The %1$s field is required.</string>
     <string name="validation_error_message_url">The %1$s is not a valid URL.</string>

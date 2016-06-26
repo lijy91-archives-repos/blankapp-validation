@@ -66,6 +66,7 @@ validator.setValidatorListener(new ValidationListener() {
 
 资源名的命名规则为：前缀 `validation_field_` 与移除前缀后的 `viewId` 拼接组成。
 如果 `viewId` 为 `edt_email`，则该字段名的资源名为 `validation_field_email`
+
 P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀，如 `btn_`、`edt_` 等 
 
 示例：

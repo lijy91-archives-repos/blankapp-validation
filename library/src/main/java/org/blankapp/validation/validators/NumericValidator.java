@@ -24,20 +24,36 @@ public class NumericValidator extends AbstractValidator<String> {
             PATTERN_MIN_VALUE,
             PATTERN_MAX_VALUE,
             PATTERN_BETWEEN_VALUE,
+            PATTERN_MIN_LENGTH,
+            PATTERN_MAX_LENGTH,
+            PATTERN_BETWEEN_LENGTH,
     })
     public @interface Patterns {}
 
-    public static final int PATTERN_MIN_VALUE = 0x01;
-    public static final int PATTERN_MAX_VALUE = 0x02;
-    public static final int PATTERN_BETWEEN_VALUE = 0x03;
+    public static final int PATTERN_MIN_VALUE       = 0x01;
+    public static final int PATTERN_MAX_VALUE       = 0x02;
+    public static final int PATTERN_BETWEEN_VALUE   = 0x03;
+    public static final int PATTERN_MIN_LENGTH      = 0x04;
+    public static final int PATTERN_MAX_LENGTH      = 0x05;
+    public static final int PATTERN_BETWEEN_LENGTH  = 0x06;
 
     private double mMinValue = 0;
     private double mMaxValue = 0;
+    private long mMaxLength = -1;
+    private long mMinLength = -1;
     private int mPattern = 0;
 
     public NumericValidator(double minValue, double maxValue, @Patterns int pattern) {
         this.mMinValue = minValue;
         this.mMaxValue = maxValue;
+        this.mPattern = pattern;
+    }
+
+    public NumericValidator(double minValue, double maxValue, long minLength, long maxLength, @Patterns int pattern) {
+        this.mMinValue = minValue;
+        this.mMaxValue = maxValue;
+        this.mMinLength = minLength;
+        this.mMaxLength = maxLength;
         this.mPattern = pattern;
     }
 

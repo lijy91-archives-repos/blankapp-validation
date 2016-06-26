@@ -42,25 +42,28 @@ import java.util.regex.Pattern;
 
 public class Rule {
 
-    public static final String ACCEPTED     = "accepted";
-    public static final String AFTER        = "after";
-    public static final String ALPHA        = "alpha";
-    public static final String ALPHA_DASH   = "alphaDash";
-    public static final String ALPHA_NUM    = "alphaNum";
-    public static final String BEFORE       = "before";
-    public static final String CONFIRMED    = "confirmed";
-    public static final String DATE         = "date";
-    public static final String EMAIL        = "email";
-    public static final String INTEGER      = "integer";
-    public static final String IP           = "ip";
-    public static final String JSON         = "json";
-    public static final String MAX          = "max";
-    public static final String MAX_LENGTH   = "maxLength";
-    public static final String MIN          = "min";
-    public static final String MIN_LENGTH   = "minLength";
-    public static final String REGEX        = "regex";
-    public static final String REQUIRED     = "required";
-    public static final String URL          = "url";
+    public static final String ACCEPTED         = "accepted";
+    public static final String AFTER            = "after";
+    public static final String ALPHA            = "alpha";
+    public static final String ALPHA_DASH       = "alphaDash";
+    public static final String ALPHA_NUM        = "alphaNum";
+    public static final String BEFORE           = "before";
+    public static final String CONFIRMED        = "confirmed";
+    public static final String DATE             = "date";
+    public static final String DIGITS           = "digits";
+    public static final String DIGITS_BETWEEN   = "digitsBetween";
+    public static final String EMAIL            = "email";
+    public static final String INTEGER          = "integer";
+    public static final String IP               = "ip";
+    public static final String JSON             = "json";
+    public static final String MAX              = "max";
+    public static final String MAX_LENGTH       = "maxLength";
+    public static final String MIN              = "min";
+    public static final String MIN_LENGTH       = "minLength";
+    public static final String NUMERIC          = "numeric";
+    public static final String REGEX            = "regex";
+    public static final String REQUIRED         = "required";
+    public static final String URL              = "url";
 
     public static Rule with(View view) {
         return new Rule(view, null);
@@ -81,6 +84,8 @@ public class Rule {
     private Resources mResources;
     private Map<String, AbstractValidator> mValidators;
     private Map<String, String> mErrorMessages;
+
+    private String mType = TypeValidator.STRING;
 
     private Rule() {
     }
@@ -111,12 +116,35 @@ public class Rule {
     }
 
     public Object value() {
+        String value = null;
+        // 获取要验证的字符串
         if (mView instanceof CheckBox) {
             return ((CheckBox) mView).isChecked();
         } else if (mView instanceof EditText) {
-            return String.valueOf(((EditText) mView).getText());
+            value = String.valueOf(((EditText) mView).getText());
         }
-        return null;
+
+        // 根据设定的类型规则（类型规则只涉及基本数据类型）进行类型转换，转换失败的均返回 null
+        try {
+            switch (mType) {
+                case TypeValidator.DOUBLE:
+                    return Double.parseDouble(value);
+                case TypeValidator.FLOAT:
+                    return Float.parseFloat(value);
+                case TypeValidator.INTEGER:
+                    return Integer.parseInt(value);
+                case TypeValidator.LONG:
+                    return Long.parseLong(value);
+                case TypeValidator.SHORT:
+                    return Short.parseShort(value);
+                case TypeValidator.STRING:
+                    return value;
+                default:
+                    return value;
+            }
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
     public Map<String, AbstractValidator> validators() {
@@ -295,11 +323,28 @@ public class Rule {
         return this;
     }
 
+    /**
+     * 验证字段值是否为 numeric 且长度为 value。
+     *
+     * @param value 长度
+     * @return 规则
+     */
     public Rule digits(long value) {
+        mType = TypeValidator.LONG;
+        addValidator(DIGITS, new NumericValidator(0, 0, value, value, NumericValidator.PATTERN_BETWEEN_LENGTH), R.string.validation_error_message_digits, name(), value);
         return this;
     }
 
-    public Rule digitsBetween(int min, int max) {
+    /**
+     * 验证字段值的长度是否在 min 和 max 之间。
+     *
+     * @param min 最小长度
+     * @param max 最大长度
+     * @return
+     */
+    public Rule digitsBetween(long min, long max) {
+        mType = TypeValidator.LONG;
+        addValidator(DIGITS_BETWEEN, new NumericValidator(0, 0, min, max, NumericValidator.PATTERN_BETWEEN_LENGTH), R.string.validation_error_message_digits_between, name(), min, max);
         return this;
     }
 
@@ -327,6 +372,7 @@ public class Rule {
      * @return 规则
      */
     public Rule integer() {
+        mType = TypeValidator.INTEGER;
         addValidator(INTEGER, new TypeValidator(TypeValidator.INTEGER), R.string.validation_error_message_integer, name());
         return this;
     }
@@ -412,7 +458,14 @@ public class Rule {
         return this;
     }
 
+    /**
+     * 验证字段值是否为数值。
+     *
+     * @return 规则
+     */
     public Rule numeric() {
+        mType = TypeValidator.DOUBLE;
+        addValidator(NUMERIC, new TypeValidator(TypeValidator.DOUBLE), R.string.validation_error_message_numeric);
         return this;
     }
 
