@@ -31,6 +31,7 @@
     <string name="validation_error_message_alpha_dash">%1$s 只能由字母、数字和破折号组成。</string>
     <string name="validation_error_message_alpha_num">%1$s 只能由字母和数字组成。</string>
     <string name="validation_error_message_before">%1$s 必须是一个在 %2$s 之前的日期。</string>
+    <string name="validation_error_message_between">%1$s 必须介于 %2$s - %3$s 之间。</string>
     <string name="validation_error_message_confirmed">%1$s 两次输入不一致。</string>
     <string name="validation_error_message_date">%1$s 不是一个有效的日期。</string>
     <string name="validation_error_message_digits">%1$s 必须是 %2$s 位的数字。</string>

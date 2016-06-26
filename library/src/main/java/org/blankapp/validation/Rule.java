@@ -48,6 +48,7 @@ public class Rule {
     public static final String ALPHA_DASH       = "alphaDash";
     public static final String ALPHA_NUM        = "alphaNum";
     public static final String BEFORE           = "before";
+    public static final String BETWEEN          = "between";
     public static final String CONFIRMED        = "confirmed";
     public static final String DATE             = "date";
     public static final String DIGITS           = "digits";
@@ -298,7 +299,15 @@ public class Rule {
         return this;
     }
 
+    /**
+     * 验证字段值的大小是否介于指定的 min 和 max 之间。
+     *
+     * @param min 最小值
+     * @param max 最大值
+     * @return 规则
+     */
     public Rule between(int min, int max) {
+        addValidator(BETWEEN, new NumericValidator(min, max, NumericValidator.PATTERN_BETWEEN_VALUE), R.string.validation_error_message_between, name(), min, max);
         return this;
     }
 

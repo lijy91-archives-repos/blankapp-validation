@@ -31,6 +31,7 @@
     <string name="validation_error_message_alpha_dash">The %1$s may only contain letters, numbers, and dashes.</string>
     <string name="validation_error_message_alpha_num">The %1$s may only contain letters and numbers.</string>
     <string name="validation_error_message_before">The %1$s must be a date before %2$s.</string>
+    <string name="validation_error_message_between">The %1$s must be between %2$s and %2$s.</string>
     <string name="validation_error_message_confirmed">The %1$s confirmation does not match.</string>
     <string name="validation_error_message_date">The %1$s is not a valid date.</string>
     <string name="validation_error_message_digits">The %1$s must be %2$s digits.</string>
