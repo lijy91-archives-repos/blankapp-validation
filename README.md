@@ -1,10 +1,19 @@
 # BLANKAPP-VALIDATION (正在开发)
 
+专注于 Android 表单验证，用方法链构建你的验证规则。
+
 [![Build Status](https://api.travis-ci.org/lijy91/blankapp-validation.svg?branch=master)](https://travis-ci.org/lijy91/blankapp-validation)
 
 [阅读文档](https://github.com/lijy91/blankapp-validation/blob/master/docs/VALIDATION.md)
 
 ## 如何使用
+
+### 支持验证的控件
+
+支持以下控件或派生自以下的控件
+
+- EditText
+- CompoundButton
 
 ### 添加依赖
 1、只需将 [mvn-repo](github.com/lijy91/mvn-repo/) 地址添加到您的项目根目录 build.gradle 文件：

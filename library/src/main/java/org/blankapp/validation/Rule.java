@@ -18,10 +18,12 @@ package org.blankapp.validation;
 
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import org.blankapp.validation.validators.AcceptedValidator;
@@ -92,6 +94,11 @@ public class Rule {
     }
 
     public Rule(View view, String name) {
+        if (!(mView instanceof EditText) &&
+            !(mView instanceof CompoundButton)) {
+            throw new ValidationException("只支持 EditText 及 CompoundButton 及其派生控件。");
+        }
+
         this.mName = name;
         this.mView = view;
         this.mPackageName = view.getContext().getPackageName();
@@ -172,9 +179,6 @@ public class Rule {
     }
 
     private String dateFormat() {
-        if (!mValidators.containsKey(DATE)) {
-            return null;
-        }
         TypeValidator typeValidator = (TypeValidator) mValidators.get(DATE);
         return typeValidator.format();
     }
@@ -185,6 +189,9 @@ public class Rule {
      * @return 规则
      */
     public Rule accepted() {
+        if (mView instanceof CompoundButton) {
+            throw new ValidationException("该规则仅支持 CompoundButton 仅其派生控件");
+        }
         addValidator(ACCEPTED, new AcceptedValidator(), R.string.validation_error_message_accepted, name());
         return this;
     }
@@ -459,11 +466,11 @@ public class Rule {
         return this;
     }
 
-    public Rule notIn(String[] values) {
+    private Rule notIn(String[] values) {
         return this;
     }
 
-    public Rule notIn(String[] ... values) {
+    private Rule notIn(String[] ... values) {
         return this;
     }
 
