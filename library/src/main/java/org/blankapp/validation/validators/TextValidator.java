@@ -17,7 +17,6 @@
 package org.blankapp.validation.validators;
 
 import android.support.annotation.IntDef;
-import android.text.TextUtils;
 
 public class TextValidator extends AbstractValidator<String> {
 

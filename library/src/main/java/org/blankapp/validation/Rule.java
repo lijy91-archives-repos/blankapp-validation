@@ -18,12 +18,9 @@ package org.blankapp.validation;
 
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
-import android.support.v4.widget.CompoundButtonCompat;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 

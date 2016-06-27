@@ -17,7 +17,7 @@
 package org.blankapp.validation.handlers;
 
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,6 +37,8 @@ public class DefaultHandler implements ErrorHandler {
 
             if (view instanceof EditText) {
                 ((EditText) view).setError(null);
+            } else if (view instanceof CompoundButton) {
+                ((CompoundButton) view).setError(null);
             }
         }
     }
