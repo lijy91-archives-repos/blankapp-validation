@@ -66,6 +66,7 @@ numeric
 验证字段值是否符合 E-Mail 格式。
 
 ##### in
+TODO
 
 ##### integer
 验证字段值是否是整数。
@@ -89,6 +90,7 @@ numeric
 验证字段值的长度至少为 value 个字符。
 
 ##### notIn
+TODO
 
 ##### numeric
 验证字段值是否为数值。

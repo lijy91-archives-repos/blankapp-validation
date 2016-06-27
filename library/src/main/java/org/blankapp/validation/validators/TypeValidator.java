@@ -35,6 +35,7 @@ public class TypeValidator extends AbstractValidator<String> {
     })
     public @interface ValueType {}
 
+    public static final String BOOLEAN  = "boolean";
     public static final String DATE     = "date";
     public static final String DOUBLE   = "double";
     public static final String FLOAT    = "float";

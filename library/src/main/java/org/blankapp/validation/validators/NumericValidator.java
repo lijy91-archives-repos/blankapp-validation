@@ -18,7 +18,7 @@ package org.blankapp.validation.validators;
 
 import android.support.annotation.IntDef;
 
-public class NumericValidator extends AbstractValidator<String> {
+public class NumericValidator extends AbstractValidator<Number> {
 
     @IntDef({
             PATTERN_MIN_VALUE,
@@ -58,17 +58,17 @@ public class NumericValidator extends AbstractValidator<String> {
     }
 
     @Override
-    public boolean isValid(String value) {
+    public boolean isValid(Number value) {
         if (value == null) {
             return false;
         }
+        double numeric = value.doubleValue();
+        String numericStr = String.valueOf(value.doubleValue());
 
-        double numeric = 0;
-        try {
-            numeric = Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        // 整数位长度
+        int integerLength = numericStr.substring(0, numericStr.lastIndexOf('.')).length();
+        // 小数位长度
+        int decimalLength = numericStr.substring(numericStr.lastIndexOf('.')).length() - 1;
         switch (mPattern) {
             case PATTERN_MIN_VALUE:
                 return numeric >= mMinValue;
@@ -76,6 +76,12 @@ public class NumericValidator extends AbstractValidator<String> {
                 return numeric <= mMaxValue;
             case PATTERN_BETWEEN_VALUE:
                 return numeric >= mMinValue && numeric <= mMaxValue;
+            case PATTERN_MIN_LENGTH:
+                return integerLength >= mMinLength;
+            case PATTERN_MAX_LENGTH:
+                return integerLength <= mMaxLength;
+            case PATTERN_BETWEEN_LENGTH:
+                return integerLength >= mMinLength && integerLength <= mMaxLength;
         }
         return false;
     }

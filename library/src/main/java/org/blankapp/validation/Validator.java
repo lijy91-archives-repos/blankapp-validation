@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 
 import org.blankapp.validation.validators.AbstractValidator;
+import org.blankapp.validation.validators.RequiredValidator;
+import org.blankapp.validation.validators.TypeValidator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Validator {
+
+    private static final String TAG = "Validator";
 
     private List<Rule> mRules;
     private List<ValidationError> mErrors;
@@ -82,12 +86,20 @@ public class Validator {
         for (Rule rule : mRules) {
             String fieldName = rule.name();
             View view        = rule.view();
-            Object value     = rule.value();
+            Object value     = null;
 
             Map<String, String> errorMessages = new LinkedHashMap<>();
 
             for (String ruleName : rule.validators().keySet()) {
                 AbstractValidator validator = rule.validators().get(ruleName);
+                // 必须及类型验证器校验的值均为字符串
+                if (validator instanceof RequiredValidator ||
+                    validator instanceof TypeValidator) {
+                    value = rule.stringValue();
+                } else {
+                    value = rule.value();
+                }
+
                 if (validator.isValid(value)) {
                     continue;
                 }

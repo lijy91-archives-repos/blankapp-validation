@@ -19,6 +19,7 @@ package org.blankapp.validation;
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
 import android.support.v4.widget.CompoundButtonCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -94,8 +95,8 @@ public class Rule {
     }
 
     public Rule(View view, String name) {
-        if (!(mView instanceof EditText) &&
-            !(mView instanceof CompoundButton)) {
+        if (!(view instanceof EditText) &&
+            !(view instanceof CompoundButton)) {
             throw new ValidationException("只支持 EditText 及 CompoundButton 及其派生控件。");
         }
 
@@ -123,36 +124,83 @@ public class Rule {
         return mView;
     }
 
-    public Object value() {
-        String value = null;
-        // 获取要验证的字符串
-        if (mView instanceof CheckBox) {
-            return ((CheckBox) mView).isChecked();
-        } else if (mView instanceof EditText) {
-            value = String.valueOf(((EditText) mView).getText());
-        }
+    public String type() {
+        return mType;
+    }
 
-        // 根据设定的类型规则（类型规则只涉及基本数据类型）进行类型转换，转换失败的均返回 null
+    public Object value() {
+        switch (mType) {
+            case TypeValidator.BOOLEAN:
+                return booleanValue();
+            case TypeValidator.DOUBLE:
+                return doubleValue();
+            case TypeValidator.FLOAT:
+                return floatValue();
+            case TypeValidator.INTEGER:
+                return intValue();
+            case TypeValidator.LONG:
+                return longValue();
+            case TypeValidator.SHORT:
+                return shortValue();
+            case TypeValidator.STRING:
+            default:
+                return stringValue();
+        }
+    }
+
+    public Boolean booleanValue() {
+        if (mView instanceof CompoundButton) {
+            return ((CompoundButton) mView).isChecked();
+        }
+        return null;
+    }
+
+    public Double doubleValue() {
+
         try {
-            switch (mType) {
-                case TypeValidator.DOUBLE:
-                    return Double.parseDouble(value);
-                case TypeValidator.FLOAT:
-                    return Float.parseFloat(value);
-                case TypeValidator.INTEGER:
-                    return Integer.parseInt(value);
-                case TypeValidator.LONG:
-                    return Long.parseLong(value);
-                case TypeValidator.SHORT:
-                    return Short.parseShort(value);
-                case TypeValidator.STRING:
-                    return value;
-                default:
-                    return value;
-            }
+            return Double.parseDouble(stringValue());
         } catch (NumberFormatException ex) {
             return null;
         }
+    }
+
+    public Float floatValue() {
+        try {
+            return Float.parseFloat(stringValue());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
+    public Integer intValue() {
+        try {
+            return Integer.parseInt(stringValue());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
+    public Long longValue() {
+        try {
+            return Long.parseLong(stringValue());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
+    public Short shortValue() {
+        try {
+            return Short.parseShort(stringValue());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
+    public String stringValue() {
+        if (mView instanceof EditText) {
+            return String.valueOf(((EditText) mView).getText());
+        }
+        return null;
     }
 
     public Map<String, AbstractValidator> validators() {
@@ -189,9 +237,10 @@ public class Rule {
      * @return 规则
      */
     public Rule accepted() {
-        if (mView instanceof CompoundButton) {
+        if (!(mView instanceof CompoundButton)) {
             throw new ValidationException("该规则仅支持 CompoundButton 仅其派生控件");
         }
+        mType = TypeValidator.BOOLEAN;
         addValidator(ACCEPTED, new AcceptedValidator(), R.string.validation_error_message_accepted, name());
         return this;
     }
