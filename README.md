@@ -109,6 +109,9 @@ P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀
 $ ./gradlew clean library:build library:uploadArchives
 ```
 
+## 讨论组
+![BLANKAPP-VALIDATION讨论群](http://upload-images.jianshu.io/upload_images/397332-659797a5e2c21a81.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/240)
+
 ## License
 
     Copyright (C) 2015 JianyingLi <lijy91@foxmail.com>
