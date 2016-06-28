@@ -85,8 +85,8 @@ public class Validator {
         mErrors.clear();
         for (Rule rule : mRules) {
             String fieldName = rule.name();
-            View view        = rule.view();
-            Object value     = null;
+            View view = rule.view();
+            Object value = null;
 
             Map<String, String> errorMessages = new LinkedHashMap<>();
 
@@ -100,9 +100,10 @@ public class Validator {
                     value = rule.value();
                 }
 
-                if (validator.isValid(value)) {
+                if (rule.canSkip() || validator.isValid(value)) {
                     continue;
                 }
+
                 String errorMessage = rule.errorMessages().get(ruleName);
                 errorMessages.put(ruleName, errorMessage);
             }

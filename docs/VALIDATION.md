@@ -51,7 +51,7 @@ numeric
 验证字段值是否介于指定的 min 和 max 之间。
 
 ##### confirmed
-验证字段值必须和 field_confirmation 的字段值一致。例如，如果要验证的字段是 password，就必须和输入数据里的 password_confirmation 的值保持一致。
+TODO: 验证字段值必须和 field_confirmation 的字段值一致。例如，如果要验证的字段是 password，就必须和输入数据里的 password_confirmation 的值保持一致。
 
 ##### date
 验证字段值是否为有效日期。

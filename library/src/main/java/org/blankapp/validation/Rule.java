@@ -113,6 +113,24 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否允许跳过该验证规则
+     *
+     * @return
+     */
+    public boolean canSkip() {
+        // 如果不存在必需和接受规则，则值为空，则允许跳过
+        if (!mValidators.containsKey(REQUIRED) && !mValidators.containsKey(ACCEPTED)) {
+            Object value = value();
+            if (value == null) {
+                return true;
+            } else if (value instanceof String && ((String) value).length() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String name() {
         return mName;
     }
@@ -360,6 +378,7 @@ public class Rule {
      * @return 规则
      */
     public Rule between(int min, int max) {
+        mType = TypeValidator.INTEGER;
         addValidator(BETWEEN, new NumericValidator(min, max, NumericValidator.PATTERN_BETWEEN_VALUE), R.string.validation_error_message_between, name(), min, max);
         return this;
     }
@@ -370,7 +389,7 @@ public class Rule {
      *
      * @return 规则
      */
-    public Rule confirmed() {
+    private Rule confirmed() {
         addValidator(CONFIRMED, new ConfirmValidator(), R.string.validation_error_message_confirmed, name());
         return this;
     }

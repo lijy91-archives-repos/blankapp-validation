@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         // 构建你的规则链并添加到验证器
         validator.add(Rule.with(mEdtEmail).required().email());
         validator.add(Rule.with(mEdtUsername).required().alphaDash());
-        validator.add(Rule.with(mEdtName).required().minLength(2).maxLength(32));
+        validator.add(Rule.with(mEdtName).minLength(2).maxLength(32));
         validator.add(Rule.with(mEdtPassword).required().minLength(6).maxLength(32));
         validator.add(Rule.with(mEdtBirthday).required().date("yyyy-MM-dd").before(TODAY));
-        validator.add(Rule.with(mEdtAge).required().digitsBetween(1, 4));
+        validator.add(Rule.with(mEdtAge).required().between(18, 60));
         validator.add(Rule.with(mEdtBio).required().maxLength(5));
         validator.add(Rule.with(mCbAccepted, "用户协议").accepted());
 

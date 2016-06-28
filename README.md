@@ -43,7 +43,7 @@ validator.add(Rule.with(mEtUsername).required().alphaDash());
 validator.add(Rule.with(mEtName).required().minLength(2).maxLength(32));
 validator.add(Rule.with(mEtPassword).required().minLength(6).maxLength(32));
 validator.add(Rule.with(mEtBirthday).required().date("yyyy-MM-dd").before(DateValidator.TODAY));
-validator.add(Rule.with(mEtAge).required().integer());
+validator.add(Rule.with(mEtAge).required().between(18, 60));
 validator.add(Rule.with(mEtBio).required().maxLength(255));
 validator.add(Rule.with(mCbAccepted).accepted());
 
