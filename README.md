@@ -4,7 +4,7 @@
 
 [![Build Status](https://api.travis-ci.org/lijy91/blankapp-validation.svg?branch=master)](https://travis-ci.org/lijy91/blankapp-validation)
 
-[阅读文档](https://github.com/lijy91/blankapp-validation/blob/master/docs/VALIDATION.md)
+[Live Demo](https://appetize.io/app/w4gw1n343e5gtchpfzvpdw8cdr?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
 
 ## 如何使用
 
@@ -32,25 +32,38 @@ dependencies {
 ```
 
 ### 快速集成
-
+实例化一个验证器
 ```java
-// 实例化一个验证器
 final Validator validator = new Validator();
-
-// 构建你的规则链并添加到验证器
+```
+构建你的规则链并添加到验证器
+```
+// 邮箱必须输入，必须为邮箱格式
 validator.add(Rule.with(mEtEmail).required().email());
+// 用户名必须输入，只能输入字母及下划线
 validator.add(Rule.with(mEtUsername).required().alphaDash());
 validator.add(Rule.with(mEtName).required().minLength(2).maxLength(32));
+// 密码必须输入，最小长度为6位，最大长度为32位
 validator.add(Rule.with(mEtPassword).required().minLength(6).maxLength(32));
+// 生日必须输入，格式为yyyy-MM-dd（1991-06-01）并且是今天之前的日期
 validator.add(Rule.with(mEtBirthday).required().date("yyyy-MM-dd").before(DateValidator.TODAY));
+// 年龄必须输入，并且为 18 ~ 60 岁
 validator.add(Rule.with(mEtAge).required().between(18, 60));
+// 简介必须输入，并且最大长度不能超过255个字符
 validator.add(Rule.with(mEtBio).required().maxLength(255));
+// 用户协议必须接受
 validator.add(Rule.with(mCbAccepted).accepted());
+```
 
-// 设置验证失败处理器
+***[阅读文档，查看所有验证规则](https://github.com/lijy91/blankapp-validation/blob/master/docs/VALIDATION.md)***
+
+设置验证失败处理器
+```
 validator.setErrorHandler(new DefaultHandler());
+```
 
-// 设置验证监听器
+设置验证结果监听器
+```
 validator.setValidatorListener(new ValidationListener() {
     @Override
     public void onValid() {
