@@ -1,4 +1,4 @@
-# BLANKAPP-VALIDATION (正在开发)
+# BLANKAPP-VALIDATION
 
 专注于 Android 表单验证，用方法链构建你的验证规则。
 
