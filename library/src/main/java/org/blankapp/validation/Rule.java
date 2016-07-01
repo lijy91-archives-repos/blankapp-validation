@@ -131,14 +131,29 @@ public class Rule {
         return false;
     }
 
+    /**
+     * 获取当前规则的字段名称
+     *
+     * @return 字段名
+     */
     public String name() {
         return mName;
     }
 
+    /**
+     * 获取当前规则的字段控件
+     *
+     * @return 控件
+     */
     public View view() {
         return mView;
     }
 
+    /**
+     * 获取当前规则的字段的数据类型
+     *
+     * @return 类型
+     */
     public String type() {
         return mType;
     }

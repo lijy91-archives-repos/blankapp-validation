@@ -17,8 +17,6 @@
 package org.blankapp.validation.handlers;
 
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.blankapp.validation.ErrorHandler;
@@ -33,18 +31,15 @@ public class DefaultHandler implements ErrorHandler {
     @Override
     public void onValid(List<Rule> rules) {
         for (Rule rule : rules) {
-            View view = rule.view();
-
-            if (view instanceof EditText) {
-                ((EditText) view).setError(null);
-            } else if (view instanceof CompoundButton) {
-                ((CompoundButton) view).setError(null);
-            }
+            ((TextView) rule.view()).setError(null, null);
         }
     }
 
     @Override
     public void onInValid(List<Rule> rules, List<ValidationError> errors) {
+        for (Rule rule : rules) {
+            ((TextView) rule.view()).setError(null, null);
+        }
         for (ValidationError error : errors) {
             View view = error.view();
             StringBuilder sb = new StringBuilder();
