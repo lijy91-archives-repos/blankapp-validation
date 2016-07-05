@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         validator.add(Rule.with(mEdtBirthday).required().date("yyyy-MM-dd").before(TODAY));
         validator.add(Rule.with(mEdtAge).required().between(18, 60));
         validator.add(Rule.with(mEdtBio).required().maxLength(5));
-        validator.add(Rule.with(mCbAccepted, "用户协议").accepted());
+        validator.add(Rule.with(mCbAccepted).accepted());
 
         // 设置验证失败处理器
         validator.setErrorHandler(new DefaultHandler());

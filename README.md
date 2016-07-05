@@ -89,7 +89,7 @@ validator.setValidatorListener(new ValidationListener() {
 资源名的命名规则为：前缀 `validation_field_` 与移除前缀后的 `viewId` 拼接组成。
 如果 `viewId` 为 `edt_email`，则该字段名的资源名为 `validation_field_email`
 
-P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀，如 `btn_`、`edt_` 等 
+P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀，如 `btn_`、`edt_` 等
 
 示例：
 ```xml
@@ -104,7 +104,7 @@ P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀
 ### 自定义默认错误消息
 
 将需要修改的错误消息添加到你的项目资源文件里，[查看全部可配置的错误消息](https://github.com/lijy91/blankapp-validation/blob/master/library/src/main/res/values-zh-rCN/strings.xml)。
- 
+
 示例：
 ```xml
 ...
@@ -122,8 +122,8 @@ P.S. 控件的命名规则必须为下划线命名法，并且必须包含前缀
 $ ./gradlew clean library:build library:uploadArchives
 ```
 
-## 讨论组
-![BLANKAPP-VALIDATION讨论群](http://upload-images.jianshu.io/upload_images/397332-659797a5e2c21a81.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/240)
+## 联系我
+![让我们来思想碰撞吧！](http://upload-images.jianshu.io/upload_images/397332-f28f39d0135332f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/320)
 
 ## License
 
