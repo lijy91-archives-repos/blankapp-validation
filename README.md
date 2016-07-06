@@ -37,7 +37,7 @@ dependencies {
 final Validator validator = new Validator();
 ```
 构建你的规则链并添加到验证器
-```
+```java
 // 邮箱必须输入，必须为邮箱格式
 validator.add(Rule.with(mEtEmail).required().email());
 // 用户名必须输入，只能输入字母及下划线
@@ -58,12 +58,12 @@ validator.add(Rule.with(mCbAccepted).accepted());
 ***[阅读文档，查看所有验证规则](https://github.com/lijy91/blankapp-validation/blob/master/docs/VALIDATION.md)***
 
 设置验证失败处理器
-```
+```java
 validator.setErrorHandler(new DefaultHandler());
 ```
 
 设置验证结果监听器
-```
+```java
 validator.setValidatorListener(new ValidationListener() {
     @Override
     public void onValid() {
