@@ -13,7 +13,7 @@ import org.blankapp.validation.Rule;
 import org.blankapp.validation.ValidationError;
 import org.blankapp.validation.ValidationListener;
 import org.blankapp.validation.Validator;
-import org.blankapp.validation.handlers.DefaultHandler;
+import org.blankapp.validation.handlers.DefaultErrorHandler;
 
 import static org.blankapp.validation.validators.DateValidator.TODAY;
 
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         validator.add(Rule.with(mCbAccepted).accepted());
 
         // 设置验证失败处理器
-        validator.setErrorHandler(new DefaultHandler());
+        validator.setErrorHandler(new DefaultErrorHandler());
 
         // 设置验证监听器
         validator.setValidatorListener(new ValidationListener() {

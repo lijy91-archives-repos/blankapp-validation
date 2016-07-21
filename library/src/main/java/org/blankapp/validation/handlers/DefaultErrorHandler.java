@@ -25,7 +25,7 @@ import org.blankapp.validation.ValidationError;
 
 import java.util.List;
 
-public class DefaultHandler implements ErrorHandler {
+public class DefaultErrorHandler implements ErrorHandler {
 
 
     @Override

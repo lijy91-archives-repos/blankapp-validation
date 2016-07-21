@@ -59,7 +59,7 @@ validator.add(Rule.with(mCbAccepted).accepted());
 
 设置验证失败处理器
 ```java
-validator.setErrorHandler(new DefaultHandler());
+validator.setErrorHandler(new DefaultErrorHandler());
 ```
 
 设置验证结果监听器
