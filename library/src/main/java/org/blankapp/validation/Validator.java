@@ -107,11 +107,11 @@ public class Validator {
                 String errorMessage = rule.errorMessages().get(ruleName);
                 errorMessages.put(ruleName, errorMessage);
             }
-            if (errorMessages.size() > 0) {
+            if (!errorMessages.isEmpty()) {
                 mErrors.add(new ValidationError(fieldName, view, errorMessages));
             }
         }
-        if (mErrors.size() > 0) {
+        if (!mErrors.isEmpty()) {
             if (mErrorHandler != null) mErrorHandler.onInValid(mRules, mErrors);
             if (mValidationListener != null) mValidationListener.onInValid(mErrors);
             return false;
