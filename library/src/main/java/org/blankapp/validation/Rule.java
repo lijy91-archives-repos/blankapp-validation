@@ -561,7 +561,7 @@ public class Rule {
      */
     public Rule numeric() {
         mType = TypeValidator.DOUBLE;
-        addValidator(NUMERIC, new TypeValidator(TypeValidator.DOUBLE), R.string.validation_error_message_numeric);
+        addValidator(NUMERIC, new TypeValidator(TypeValidator.DOUBLE), R.string.validation_error_message_numeric, name());
         return this;
     }
 
