@@ -4,8 +4,6 @@
 
 [![Build Status](https://api.travis-ci.org/lijy91/blankapp-validation.svg?branch=master)](https://travis-ci.org/lijy91/blankapp-validation)
 
-[Live Demo](https://appetize.io/app/w4gw1n343e5gtchpfzvpdw8cdr?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
-
 ## 如何使用
 
 ### 支持验证的控件
@@ -27,7 +25,7 @@ repositories {
 2、在要集成的模块 build.gradle 文件中添加依赖，如下：
 ```
 dependencies {
-    compile 'org.blankapp:blankapp-validation:0.0.2-alpha@aar'
+    compile 'org.blankapp:blankapp-validation:0.0.3-alpha@aar'
 }
 ```
 
