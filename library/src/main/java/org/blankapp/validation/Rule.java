@@ -493,7 +493,7 @@ public class Rule {
     }
 
     public Rule max(long value) {
-        addValidator(MAX, new NumericValidator(0, value, NumericValidator.PATTERN_MIN_VALUE), R.string.validation_error_message_max, name(), value);
+        addValidator(MAX, new NumericValidator(0, value, NumericValidator.PATTERN_MAX_VALUE), R.string.validation_error_message_max, name(), value);
         return this;
     }
 
@@ -504,7 +504,7 @@ public class Rule {
      * @return 规则
      */
     public Rule max(double value) {
-        addValidator(MAX, new NumericValidator(0, value, NumericValidator.PATTERN_MIN_VALUE), R.string.validation_error_message_max, name(), value);
+        addValidator(MAX, new NumericValidator(0, value, NumericValidator.PATTERN_MAX_VALUE), R.string.validation_error_message_max, name(), value);
         return this;
     }
 
